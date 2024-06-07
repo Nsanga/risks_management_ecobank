@@ -24,6 +24,7 @@ import Risks from "views/admin/risks";
 import signIn from "views/auth/signIn";
 import Logout from "views/admin/Logout";
 import { RiSkull2Fill } from "react-icons/ri";
+import Event from "views/admin/event";
 
 const routes = [
   {
@@ -71,13 +72,13 @@ const routes = [
     icon: <Icon as={TbSettings2} width='20px' height='20px' color='inherit' />,
     component: Integration,
   },
-  // {
-  //   name: "Gestion des comptes",
-  //   layout: "/admin",
-  //   path: "/account-management",
-  //   icon: <Icon as={MdManageAccounts} width='20px' height='20px' color='inherit' />,
-  //   component: AccountManagement,
-  // },
+  {
+    name: "Event",
+    layout: "/admin",
+    path: "/event",
+    icon: <Icon as={MdManageAccounts} width='20px' height='20px' color='inherit' />,
+    component: Event,
+  },
   // { 
   //   name: "Configuration",
   //   layout: "/admin",

@@ -9,7 +9,8 @@ import React from "react";
 
 function SidebarContent(props) {
   const { routes } = props;
-  const filteredRoutes = routes.filter((route) => route.name !== "Login");
+  const excludedRoutes = ["Login", "Event"];
+  const filteredRoutes = routes.filter((route) => !excludedRoutes.includes(route.name));
   // SIDEBAR
   return (
     <Flex direction='column' height='100%' pt='25px' px="16px" borderRadius='30px'>
