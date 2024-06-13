@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Container, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 
 const Head = ({
@@ -12,6 +12,9 @@ const Head = ({
 }) => {
     return (
         <Box p={5} shadow='md' borderWidth='1px' {...rest}>
+            <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                Event details
+            </Box>
             <Flex flexDirection='column' gap={4}>
                 <Flex alignItems='center' gap={32}>
                     <Flex alignItems='center' gap={10}>

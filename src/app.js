@@ -29,7 +29,7 @@ const App = ({userAuth}) => {
                     <Route exact path="/admin/logout" render={(props) => <AdminLayout {...props} />} />
                     <Route exact path="/admin/event" render={(props) => <AdminLayout {...props} />} />
 
-                    {/* <Redirect from='/' to='/admin/dashboard' /> */}
+                    <Redirect from='/' to='/admin/dashboard' />
                 </Switch>
             {/* ) : ( */}
                 {/* <Switch>

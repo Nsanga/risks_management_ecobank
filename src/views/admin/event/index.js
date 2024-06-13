@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import Head from './components/Head'
 import { MdInsertDriveFile } from 'react-icons/md'
+import LossesEntities from './components/LossesEntities'
 
 const Event = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -27,6 +28,7 @@ const Event = () => {
                 totalLosses='1,727.15'
                 externalRef 
             />
+            <LossesEntities />
         </Card>
     )
 }
