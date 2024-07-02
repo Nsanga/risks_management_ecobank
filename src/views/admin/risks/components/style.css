@@ -1,0 +1,11 @@
+/* styles.css */
+
+/* General styles */
+.risk-form {
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+    width: 200%;
+    max-width: 1200px; /* Augmentez la largeur maximale de la fiche */
+    margin: 0 auto; /* Centre la fiche horizontalement */
+  }
+  
