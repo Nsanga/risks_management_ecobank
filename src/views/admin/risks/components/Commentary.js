@@ -1,16 +1,13 @@
-import { Box, Flex, Input, Text } from '@chakra-ui/react';
+import { Box, Flex, Input, Text, Textarea } from '@chakra-ui/react';
 import React from 'react'
 
 const Commentary = () => {
   return (
-    <Box border="1px solid #ccc" borderRadius="md" p={6}>
-      <Text fontSize="lg" fontWeight="bold" mb={4}>Commentaire</Text>
-      <Flex direction="column" gap={4}>
-        <Flex alignItems="center" gap={2}>
-          <Text>Laisser un commentaire:</Text>
-          <Input type="text" flex="5" />
-        </Flex>
-      </Flex>
+    <Box p={5} shadow='md' borderWidth='1px'>
+            <Flex direction="column" gap={4} flex="2">
+                <Text fontWeight="bold">Commentary</Text>
+                <Textarea />
+            </Flex>
     </Box>
   );
 }

@@ -70,7 +70,7 @@ const Details = () => {
             </Flex>
             <Flex alignItems="center" gap={2}>
                 <Text>Description:</Text>
-                <Textarea />
+                <Input type="text" />
             </Flex>
             <Flex direction="column" gap={4} flex="2">
                 <Text fontWeight="bold">Detailed Description</Text>

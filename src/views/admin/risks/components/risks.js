@@ -35,7 +35,7 @@ function Risk() {
         <Button onClick={onOpen}>Add event</Button>
       </Box>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="5xl">
+      <Modal isOpen={isOpen} onClose={onClose} size="5xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>New event</ModalHeader>
