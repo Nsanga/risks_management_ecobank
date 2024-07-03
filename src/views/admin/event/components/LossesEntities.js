@@ -2,6 +2,8 @@ import { Box, Button, Flex, Input, Tab, TabList, TabPanel, TabPanels, Tabs, Text
 import React from 'react';
 import { FaFilePen } from "react-icons/fa6";
 import DetailsForm from './DetailsForm';
+import Financials from './Financials';
+import Commentary from './commentary';
 
 const LossesEntities = ({
     ...rest
@@ -59,7 +61,9 @@ const LossesEntities = ({
                         </Flex>
                     </Flex>
                     <Flex gap={5}>
+                    <Box width='100%'>
                         <Text>Increment Currency:</Text>
+                        </Box>
                         <Input
                             value={value}
                             onChange={handleChange}
@@ -79,7 +83,9 @@ const LossesEntities = ({
                         />
                     </Flex>
                     <Flex alignItems='center' gap={4}>
-                        <Text>Effective Date:</Text>
+                        <Box width='100%'>
+                            <Text>Effective Date:</Text>
+                        </Box>
                         <Input
                             value={value}
                             onChange={handleChange}
@@ -100,8 +106,10 @@ const LossesEntities = ({
                     <TabPanel>
                         <DetailsForm />
                     </TabPanel>
-                    <TabPanel>2</TabPanel>
-                    <TabPanel>3</TabPanel>
+                    <TabPanel>
+                        <Commentary />
+                    </TabPanel>
+                    <TabPanel><Financials /></TabPanel>
                     <TabPanel>4</TabPanel>
                 </TabPanels>
             </Tabs>

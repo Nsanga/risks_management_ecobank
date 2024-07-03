@@ -1,4 +1,4 @@
-import { Box, Checkbox, Flex, Input, Select, Text } from '@chakra-ui/react'
+import { Box, Checkbox, Flex, Input, Select, Text, Textarea } from '@chakra-ui/react'
 import React from 'react'
 
 const DetailsForm = () => {
@@ -101,6 +101,12 @@ const DetailsForm = () => {
                     </Flex>
                 </Box>
             </Flex>
+            <Box p={5} shadow='md' borderWidth='1px'>
+                <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    Detailed Description
+                </Box>
+                <Textarea placeholder='Description détaillée' />
+            </Box>
         </Flex>
     )
 }
