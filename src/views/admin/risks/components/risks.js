@@ -13,14 +13,14 @@ import {
   TabPanel,
   Box,
   Flex,
-  Text,
-  Input,
   Button
 } from "@chakra-ui/react";
 import { useDisclosure } from '@chakra-ui/react';
 import Details from "./Details";
 import Commentary from "./Commentary";
 import Finances from "./Finances";
+import { AddIcon } from "@chakra-ui/icons";
+import Additional from "./Additional";
 
 
 
@@ -31,9 +31,13 @@ function Risk() {
 
   return (
     <>
-      <Box position="absolute" top="20px" right="20px" zIndex="1">
-        <Button onClick={onOpen}>Add event</Button>
+    <Flex justifyContent='flex-end'>
+      <Box  top="20px">
+        <Button leftIcon={<AddIcon/>} onClick={onOpen} variant="outline" colorScheme='blue' size='md'>
+    Add new event
+  </Button>
       </Box>
+      </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose} size="5xl" scrollBehavior="inside">
         <ModalOverlay />
@@ -60,20 +64,7 @@ function Risk() {
                   <Finances />
                 </TabPanel>
                 <TabPanel>
-                  <Flex direction="column" gap={4}>
-                    <Flex alignItems="center" gap={2}>
-                      <Text>Entity:</Text>
-                      <Input type="text" />
-                    </Flex>
-                    <Flex alignItems="center" gap={2}>
-                      <Text>Sub-Entity:</Text>
-                      <Input type="text" />
-                    </Flex>
-                    <Flex alignItems="center" gap={2}>
-                      <Text>Date of Detection:</Text>
-                      <Input type="date" />
-                    </Flex>
-                  </Flex>
+                <Additional />
                 </TabPanel>
               </TabPanels>
             </Tabs>
