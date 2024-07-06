@@ -11,8 +11,10 @@ import {
     useDisclosure,
     Select,
     Text,
+    IconButton,
 } from '@chakra-ui/react';
 import data from '../Data';
+import { MdUploadFile } from 'react-icons/md';
 
 const Info = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -56,7 +58,9 @@ const Info = () => {
 
     return (
         <>
-            <Button onClick={onOpen}>Open Modal</Button>
+            <IconButton onClick={onOpen}>
+                <MdUploadFile />
+            </IconButton>
 
             <Modal isOpen={isOpen} onClose={closeModal}>
                 <ModalOverlay />

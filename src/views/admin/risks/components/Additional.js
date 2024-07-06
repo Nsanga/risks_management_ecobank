@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Table, Thead, Tbody, Tr, Th, Td, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
 import Info from './Info';
+import data from '../Data'; // Assurez-vous d'importer vos données
+
 const Additional = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedData, setSelectedData] = useState({ category: '', select: '', description: '' });
 
-  const handleCellClick = ( select) => {
-    setSelectedData({ select });
+  const handleCellClick = (category, select, description) => {
+    setSelectedData({ category, select, description });
     setIsOpen(true);
   };
 
@@ -25,16 +27,13 @@ const Additional = () => {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr >
-            <Td>Regulation Line of Business</Td>
-            <Td><Info/></Td>
-            <Td>Description for Option 1</Td>
-          </Tr>
-          <Tr >
-            <Td>Product Type</Td>
-            <Td><Info/></Td>
-            <Td>Description for Option A</Td>
-          </Tr>
+          {Object.keys(data).map((category) => (
+            <Tr key={category}>
+              <Td>{data[category].title}</Td>
+              <Td><Info category={category} onCellClick={handleCellClick} /></Td>
+              <Td>Description for {data[category].name}</Td>
+            </Tr>
+          ))}
         </Tbody>
       </Table>
 
