@@ -1,15 +1,37 @@
-import { useState } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
-import Info from './Info';
-import data from '../Data'; // Assurez-vous d'importer vos données
+import React, { useState } from 'react';
+import {
+  Box,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from '@chakra-ui/react';
+import data from '../Data';
+import MultiLevelList from './NestedListItem ';
+import { MdUploadFile } from 'react-icons/md';
 
 const Additional = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState({ category: '', select: '', description: '' });
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedItem, setSelectedItem] = useState('');
 
-  const handleCellClick = (category, select, description) => {
-    setSelectedData({ category, select, description });
+  const handleCellClick = (category) => {
+    setSelectedCategory(category);
     setIsOpen(true);
+  };
+
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
   };
 
   const closeModal = () => {
@@ -27,25 +49,29 @@ const Additional = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {Object.keys(data).map((category) => (
-            <Tr key={category}>
-              <Td>{data[category].title}</Td>
-              <Td><Info category={category} onCellClick={handleCellClick} /></Td>
-              <Td>Description for {data[category].name}</Td>
+          {data.map((item, index) => (
+            <Tr key={index}>
+              <Td>{item.title}</Td>
+              <Td onClick={() => handleCellClick(item.title)}>
+                <Button variant="link" color="blue"><MdUploadFile /></Button>
+              </Td>
+              <Td>{selectedCategory === item.title && selectedItem}</Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
 
       {/* Modal */}
-      <Modal isOpen={isOpen} onClose={closeModal}>
+      <Modal isOpen={isOpen} onClose={closeModal} isCentered scrollBehavior='inside'>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{selectedData.category}</ModalHeader>
+          <ModalHeader>{selectedCategory}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p><strong>Select:</strong> {selectedData.select}</p>
-            <p><strong>Description:</strong> {selectedData.description}</p>
+            <MultiLevelList
+              data={data.find(item => item.title === selectedCategory)}
+              onItemClick={handleItemClick} // Passez la fonction de rappel handleItemClick à MultiLevelList
+            />
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={closeModal}>
