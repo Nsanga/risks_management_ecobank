@@ -87,12 +87,12 @@ const SignIn = ({ error }) => {
     >
       <Stack spacing="8">
         <Stack align="center" justifyContent='center'>
-          <Image
+          {/* <Image
             src={logo}
             width={{base:100, lg: 300}}
             height={{base:100, lg: 200}}
             objectFit='contain'
-          />
+          /> */}
           <Stack
             textAlign="center"
           >
