@@ -1,15 +1,48 @@
-import { useState } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, Button } from '@chakra-ui/react';
-import Info from './Info';
-import data from '../Data'; // Assurez-vous d'importer vos données
+import React, { useState } from 'react';
+import {
+  Box,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Button,
+  List,
+  ListItem,
+  Collapse,
+  IconButton,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
+import { MdUploadFile } from 'react-icons/md';
+import data from '../Data';
+import MultiLevelList from './NestedListItem ';
 
 const Additional = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedData, setSelectedData] = useState({ category: '', select: '', description: '' });
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedDescriptions, setSelectedDescriptions] = useState({});
 
-  const handleCellClick = (category, select, description) => {
-    setSelectedData({ category, select, description });
+  const handleCellClick = (index, category) => {
+    setSelectedCategory({ index, category });
     setIsOpen(true);
+  };
+
+  const handleItemClick = (item) => {
+    setSelectedDescriptions(prevState => ({
+      ...prevState,
+      [selectedCategory.index]: item,
+    }));
+    setIsOpen(false);
   };
 
   const closeModal = () => {
@@ -27,25 +60,31 @@ const Additional = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {Object.keys(data).map((category) => (
-            <Tr key={category}>
-              <Td>{data[category].title}</Td>
-              <Td><Info category={category} onCellClick={handleCellClick} /></Td>
-              <Td>Description for {data[category].name}</Td>
+          {data.map((item, index) => (
+            <Tr key={index}>
+              <Td>{item.title}</Td>
+              <Td onClick={() => handleCellClick(index, item.title)}>
+                <Button variant="link" color="blue"><MdUploadFile /></Button>
+              </Td>
+              <Td>{selectedDescriptions[index]}</Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
 
       {/* Modal */}
-      <Modal isOpen={isOpen} onClose={closeModal}>
+      <Modal isOpen={isOpen} onClose={closeModal} isCentered scrollBehavior='inside'>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{selectedData.category}</ModalHeader>
+          <ModalHeader>{selectedCategory?.category}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <p><strong>Select:</strong> {selectedData.select}</p>
-            <p><strong>Description:</strong> {selectedData.description}</p>
+            {selectedCategory && (
+              <MultiLevelList
+                data={data.find(item => item.title === selectedCategory.category)}
+                onItemClick={handleItemClick}
+              />
+            )}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={closeModal}>

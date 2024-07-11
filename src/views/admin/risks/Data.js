@@ -1,8 +1,8 @@
 const data = [
     {
       "title": "Regulator Line of Business",
+      "name": "No set",
       "data": {
-        "name": "No set",
         "categories": {
           "Retail/ Consumer Banking": [
             "Personal (or Retail) Banking",
@@ -44,8 +44,8 @@ const data = [
     },
     {
       "title": "Product Type",
+      "name": "No set",
       "data": {
-        "name": "No set",
         "categories": {
           "Commercial Banking": {
             "Liability Products": [
@@ -158,8 +158,8 @@ const data = [
     },
     {
       "title": "System Type",
+      "name": "No set",
       "data": {
-        "name": "No set",
         "types": [
           "ACH",
           "Advance Plus",
@@ -182,8 +182,8 @@ const data = [
     },
     {
       "title": "Boundary Event Classification",
+      "name": "No set",
       "data": {
-        "name": "No set",
         "classifications": [
           "Not Set",
           "Credit Boundary",
