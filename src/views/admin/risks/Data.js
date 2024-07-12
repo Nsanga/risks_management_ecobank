@@ -1,9 +1,10 @@
 const data = [
-    {
-      "title": "Regulator Line of Business",
-      "name": "No set",
-      "data": {
-        "categories": {
+  {
+    "title": "Regulator Line of Business",
+
+    "data": {
+      "categories": {
+        "No set": {
           "Retail/ Consumer Banking": [
             "Personal (or Retail) Banking",
             "Private Banking",
@@ -41,12 +42,13 @@ const data = [
           ]
         }
       }
-    },
-    {
-      "title": "Product Type",
-      "name": "No set",
-      "data": {
-        "categories": {
+    }
+  },
+  {
+    "title": "Product Type",
+    "data": {
+      "categories": {
+        "No set": {
           "Commercial Banking": {
             "Liability Products": [
               "Business Account",
@@ -155,44 +157,47 @@ const data = [
           }
         }
       }
-    },
-    {
-      "title": "System Type",
-      "name": "No set",
-      "data": {
-        "types": [
-          "ACH",
-          "Advance Plus",
-          "Agency Banking",
-          "ASTRA",
-          "BankCollect",
-          "BASYS",
-          "CALYPSO",
-          "CARD MODULE",
-          "CLEARING",
-          "CMS",
-          "CREDITLENS",
-          "ECOBANK OLINE",
-          "ECOBANK PAY",
-          "ECORTGS",
-          "ETRANZACT",
-          "EXIMBILL"
-        ]
+    }
+  },
+  {
+    "title": "System Type",
+    "data": {
+      "categories": {
+        "No set": {
+          "types": [
+            "ACH",
+            "Advance Plus",
+            "Agency Banking",
+            "ASTRA",
+            "BankCollect",
+            "BASYS",
+            "CALYPSO",
+            "CARD MODULE",
+            "CLEARING",
+            "CMS",
+            "CREDITLENS",
+            "ECOBANK OLINE",
+            "ECOBANK PAY",
+            "ECORTGS",
+            "ETRANZACT",
+            "EXIMBILL"
+          ]
+        }
       }
-    },
-    {
-      "title": "Boundary Event Classification",
-      "name": "No set",
-      "data": {
-        "classifications": [
-          "Not Set",
+    }
+  },
+  {
+    "title": "Boundary Event Classification",
+    "data": {
+      "categories": {
+        "No set": [
           "Credit Boundary",
           "Market Boundary Event",
           "Operational Risk Event"
         ]
       }
     }
-  ];
-  
-  export default data;
-  
+  }
+];
+
+export default data;
