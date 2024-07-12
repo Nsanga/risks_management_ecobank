@@ -1,21 +1,29 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import React from 'react';
 
-const CardDetails = ({ eventRef, description, isApproved }) => {
+const truncateText = (text, maxLength) => {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.substring(0, maxLength) + '...';
+};
+
+const CardDetails = ({ isApproved }) => {
+  const description = "Restitution des fonds suite à une fraude par les transactions en ligne sur le compte d'un client du Commercial Bank.";
+  const truncatedDescription = truncateText(description, 90); // Truncate to 50 characters
+
   return (
-    <Box p={5} shadow="md" borderRadius={15} borderWidth="1px" mt={4}>
-      <Flex direction="row" alignItems="center" justifyContent="space-between" mb={4}>
+    <Flex direction="column" p={5} shadow="md" borderRadius={15} borderWidth="1px" mt={4}>
+      <Flex direction="row"justifyContent="space-between">
         <Flex direction="row" alignItems="center">
-          <Text fontWeight="bold" mr={2}>Event Ref:</Text>
-          <Text mr={10}>{eventRef}</Text> {/* Increased the margin-right value here */}
-          <Text fontWeight="bold" mr={2}>Description:</Text>
-          <Text>{description}</Text>
+          <Text fontWeight="bold" mr={10} style={{ color: 'blue' }}>EVT17010</Text>
+          <Text fontWeight="bold" mr={10}>{truncatedDescription}</Text>
         </Flex>
-        <Text color={isApproved ? "green.500" : "red.500"}>
-          {isApproved ? "Approved" : "Unapproved"}
-        </Text>
+        <Box p={1} shadow='md' borderWidth='1px' borderColor='blue'>
+          <Text style={{ color: 'blue' }}>Approved</Text>
+        </Box>
       </Flex>
-    </Box>
+    </Flex>
   );
 };
 
