@@ -5,8 +5,9 @@ import React from "react";
 
 function SidebarContent(props) {
   const { routes, isCollapsed } = props;
-  const filteredRoutes = routes.filter((route) => route.name !== "Login");
-  
+  const excludedRoutes = ["Login", "Event"];
+  const filteredRoutes = routes.filter((route) => !excludedRoutes.includes(route.name));
+
   return (
     <Flex
       direction='column'

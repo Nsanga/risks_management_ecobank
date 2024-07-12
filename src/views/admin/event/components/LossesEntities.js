@@ -18,7 +18,7 @@ const LossesEntities = ({
             <Flex justifyContent='flex-end' m={6}>
                 <Button leftIcon={<FaFilePen />} variant='outline' colorScheme='blue'>Amend Effective Date</Button>
             </Flex>
-            <Flex flexDirection='column' gap={4} mb={8}>
+            <Flex flexDirection='column' gap={2} mb={8}>
                 <Flex alignItems='center' justifyContent='space-between'>
                     <Flex alignItems='center' gap={8}>
                         <Text>Date:</Text>

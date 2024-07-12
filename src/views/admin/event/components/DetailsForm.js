@@ -7,7 +7,7 @@ const DetailsForm = () => {
         <Flex flexDirection='column' gap={4}>
             <Flex justifyContent='space-between' alignItems="center">
                 <Flex gap={6} alignItems="center">
-                    <Text>Event Data:</Text>
+                    <Text>Event Date:</Text>
                     <Box width={200}>
                         <Input placeholder='Select Date' size='md' type='date' />
                     </Box>
@@ -101,12 +101,66 @@ const DetailsForm = () => {
                     </Flex>
                 </Box>
             </Flex>
+            <Box pt={5} pb={5}>
+                <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    Description
+                </Box>
+                <Input placeholder='Event description' />
+            </Box>
             <Box p={5} shadow='md' borderWidth='1px'>
                 <Box bg='green.400' color='#FFF' mb={6} padding={2}>
                     Detailed Description
                 </Box>
                 <Textarea placeholder='Description détaillée' />
             </Box>
+            <Flex justifyContent='space-between' pt={5}> 
+                <Flex flexDirection='column' gap={2}>
+                    <Flex gap={14} alignItems="center">
+                        <Text>Approved Date:</Text>
+                        <Box width={200}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={16} alignItems="center">
+                        <Text>Closed Date:</Text>
+                        <Box width={200} marginLeft={3}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={6} alignItems="center">
+                        <Text>Target Closure Date:</Text>
+                        <Box width={200}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                </Flex>
+                <Flex flexDirection='column' gap={2}>
+                    <Flex gap={14} alignItems="center">
+                        <Text>Owner:</Text>
+                        <Box width={200} marginLeft={1}>
+                            <Input size='md' type='text' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={10} alignItems="center">
+                        <Text>Nominee:</Text>
+                        <Box width={200} marginLeft={1}>
+                            <Input size='md' type='text' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={10} alignItems="center">
+                        <Text>Reviewer:</Text>
+                        <Box width={200}  marginLeft={1}>
+                            <Input size='md' type='text' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={6} alignItems="center">
+                        <Text>Review Date:</Text>
+                        <Box width={200}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                </Flex>
+            </Flex>
         </Flex>
     )
 }
