@@ -12,15 +12,22 @@ import {
     Select,
     Text,
 } from '@chakra-ui/react';
-import data from '../Data';
+import data from '../Data'; // Import your JSON data from the file
 
 const Info = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedSubCategory, setSelectedSubCategory] = useState('');
     const [selectedItem, setSelectedItem] = useState('');
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value);
+        setSelectedSubCategory('');
+        setSelectedItem('');
+    };
+
+    const handleSubCategoryChange = (event) => {
+        setSelectedSubCategory(event.target.value);
         setSelectedItem('');
     };
 
@@ -31,25 +38,31 @@ const Info = () => {
     const closeModal = () => {
         onClose();
         setSelectedCategory('');
+        setSelectedSubCategory('');
         setSelectedItem('');
     };
 
-    const getCategoryOptions = () => {
-        return Object.keys(data).map((category) => ({
-            value: category,
-            label: category,
-        }));
+    const getSubCategoryOptions = () => {
+        if (selectedCategory) {
+            const category = data.categories.find(cat => cat.name === selectedCategory);
+            return category ? category.subCategories.map(subCat => ({
+                value: subCat.name,
+                label: subCat.name,
+            })) : [];
+        }
+        return [];
     };
 
     const getItemOptions = () => {
-        if (selectedCategory && data[selectedCategory]) {
-            const categories = data[selectedCategory].categories;
-            return Object.keys(categories).flatMap((category) =>
-                categories[category].map((item) => ({
+        if (selectedSubCategory) {
+            const category = data.categories.find(cat => cat.name === selectedCategory);
+            if (category) {
+                const subCategory = category.subCategories.find(subCat => subCat.name === selectedSubCategory);
+                return subCategory ? subCategory.items.map(item => ({
                     value: item,
                     label: item,
-                }))
-            );
+                })) : [];
+            }
         }
         return [];
     };
@@ -66,14 +79,27 @@ const Info = () => {
                     <ModalBody>
                         <Text>Select a category:</Text>
                         <Select value={selectedCategory} onChange={handleCategoryChange} placeholder="Select category" mt={2}>
-                            {getCategoryOptions().map((option, index) => (
-                                <option key={index} value={option.value}>
-                                    {option.label}
+                            {data.categories.map((category, index) => (
+                                <option key={index} value={category.name}>
+                                    {category.name}
                                 </option>
                             ))}
                         </Select>
 
                         {selectedCategory && (
+                            <>
+                                <Text mt={4}>Select a sub-category:</Text>
+                                <Select value={selectedSubCategory} onChange={handleSubCategoryChange} placeholder="Select sub-category" mt={2}>
+                                    {getSubCategoryOptions().map((option, index) => (
+                                        <option key={index} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    ))}
+                                </Select>
+                            </>
+                        )}
+
+                        {selectedSubCategory && (
                             <>
                                 <Text mt={4}>Select an item:</Text>
                                 <Select value={selectedItem} onChange={handleItemChange} placeholder="Select item" mt={2}>

@@ -1,22 +1,22 @@
-import { Box, Flex, Text, Textarea } from '@chakra-ui/react';
-import React from 'react'
+import { Box, Flex, Text } from '@chakra-ui/react';
+import React from 'react';
 
-const CardDetails = () => {
+const CardDetails = ({ eventRef, description, isApproved }) => {
   return (
-    <Box p={5} shadow='md' borderRadius={15} borderWidth='1px' mt={4}>
-      <Flex direction="row" gap={4} flex="2" alignItems='center'>
-        <Text fontWeight="bold">Event name</Text>
-        <Box p={1} shadow='md' borderWidth='1px' borderColor='blue'>
-          <Text fontWeight="bold">Approved</Text>
-        </Box>
-      </Flex>
-      <Flex mt={2} direction="row" gap={4} flex="2">
-        <Text fontWeight="bold">Recorded By:</Text>
-        <Text fontWeight="bold">Event date:</Text>
-        <Text fontWeight="bold">Recorded By</Text>
+    <Box p={5} shadow="md" borderRadius={15} borderWidth="1px" mt={4}>
+      <Flex direction="row" alignItems="center" justifyContent="space-between" mb={4}>
+        <Flex direction="row" alignItems="center">
+          <Text fontWeight="bold" mr={2}>Event Ref:</Text>
+          <Text mr={10}>{eventRef}</Text> {/* Increased the margin-right value here */}
+          <Text fontWeight="bold" mr={2}>Description:</Text>
+          <Text>{description}</Text>
+        </Flex>
+        <Text color={isApproved ? "green.500" : "red.500"}>
+          {isApproved ? "Approved" : "Unapproved"}
+        </Text>
       </Flex>
     </Box>
   );
-}
+};
 
 export default CardDetails;
