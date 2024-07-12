@@ -40,15 +40,17 @@ const LossesEntities = ({
                     </Flex>
                     <Flex alignItems='center' gap={4}>
                         <Text>Head Office Currency: </Text>
-                        <Input
-                            value={value}
-                            onChange={handleChange}
-                            placeholder='30/01/2023'
-                            size='sm'
-                        />
+                        <Box width={59}>
+                            <Input
+                                value={value}
+                                onChange={handleChange}
+                                placeholder='USD'
+                                size='sm'
+                            />
+                        </Box>
                     </Flex>
                 </Flex>
-                <Flex gap={39}>
+                <Flex justifyContent='space-between'>
                     <Flex gap={5}>
                         <Text>Cause:</Text>
                         <Flex style={{ width: '470px' }}>
@@ -60,19 +62,21 @@ const LossesEntities = ({
                             />
                         </Flex>
                     </Flex>
-                    <Flex gap={5}>
-                    <Box width='100%'>
-                        <Text>Increment Currency:</Text>
+                    <Flex>
+                        <Box width='100%'>
+                            <Text>Increment Currency:</Text>
                         </Box>
-                        <Input
-                            value={value}
-                            onChange={handleChange}
-                            placeholder='USD'
-                            size='sm'
-                        />
+                        <Box width={20}>
+                            <Input
+                                value={value}
+                                onChange={handleChange}
+                                placeholder='USD'
+                                size='sm'
+                            />
+                        </Box>
                     </Flex>
                 </Flex>
-                <Flex alignItems='center' gap={40}>
+                <Flex alignItems='center' justifyContent='space-between'>
                     <Flex alignItems='center' gap={8}>
                         <Text>Rate: </Text>
                         <Input
@@ -82,7 +86,7 @@ const LossesEntities = ({
                             size='sm'
                         />
                     </Flex>
-                    <Flex alignItems='center' gap={4}>
+                    <Flex alignItems='center'>
                         <Box width='100%'>
                             <Text>Effective Date:</Text>
                         </Box>
