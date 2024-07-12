@@ -1,11 +1,11 @@
-// Chakra Imports
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Link, Text, useColorModeValue } from '@chakra-ui/react';
 import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import AdminNavbarLinks from 'components/navbar/NavbarLinksAdmin';
 
 export default function AdminNavbar(props) {
-	const [ scrolled, setScrolled ] = useState(false);
+	const [scrolled, setScrolled] = useState(false);
+	const { secondary, message, brandText, isCollapsed } = props;
 
 	useEffect(() => {
 		window.addEventListener('scroll', changeNavbar);
@@ -15,9 +15,14 @@ export default function AdminNavbar(props) {
 		};
 	});
 
-	const { secondary, message, brandText } = props;
+	const changeNavbar = () => {
+		if (window.scrollY > 1) {
+			setScrolled(true);
+		} else {
+			setScrolled(false);
+		}
+	};
 
-	// Here are all the props that may change depending on navbar's type or state.(secondary, variant, scrolled)
 	let mainText = useColorModeValue('navy.700', 'white');
 	let secondaryText = useColorModeValue('gray.700', 'white');
 	let navbarPosition = 'fixed';
@@ -29,13 +34,6 @@ export default function AdminNavbar(props) {
 	let secondaryMargin = '0px';
 	let paddingX = '15px';
 	let gap = '0px';
-	const changeNavbar = () => {
-		if (window.scrollY > 1) {
-			setScrolled(true);
-		} else {
-			setScrolled(false);
-		}
-	};
 
 	return (
 		<Box
@@ -76,7 +74,7 @@ export default function AdminNavbar(props) {
 				base: 'calc(100vw - 6%)',
 				md: 'calc(100vw - 8%)',
 				lg: 'calc(100vw - 6%)',
-				xl: 'calc(100vw - 350px)',
+				xl: isCollapsed ? 'calc(100vw - 155px)' : 'calc(100vw - 375px)',
 				'2xl': 'calc(100vw - 365px)'
 			}}>
 			<Flex
@@ -141,5 +139,6 @@ AdminNavbar.propTypes = {
 	variant: PropTypes.string,
 	secondary: PropTypes.bool,
 	fixed: PropTypes.bool,
-	onOpen: PropTypes.func
+	onOpen: PropTypes.func,
+	isCollapsed: PropTypes.bool // Définir le PropTypes pour isCollapsed
 };

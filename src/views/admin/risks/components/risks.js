@@ -49,7 +49,7 @@ function Risk() {
               <TabList>
                 <Tab>Details</Tab>
                 <Tab>Commentary</Tab>
-                <Tab>financials</Tab>
+                <Tab isDisabled>Financials</Tab>
                 <Tab>Additional info</Tab>
               </TabList>
 

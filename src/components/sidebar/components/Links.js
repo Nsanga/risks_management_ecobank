@@ -1,7 +1,6 @@
 /* eslint-disable */
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-// chakra imports
 import { Box, Flex, HStack, Text, useColorModeValue } from "@chakra-ui/react";
 
 export function SidebarLinks(props) {
@@ -16,7 +15,7 @@ export function SidebarLinks(props) {
   let textColor = useColorModeValue("secondaryGray.500", "white");
   let brandColor = useColorModeValue("brand.500", "brand.400");
 
-  const { routes } = props;
+  const { routes, isCollapsed } = props;
 
   // verifies if routeName is the one active (in browser input)
   const activeRoute = (routeName) => {
@@ -40,7 +39,9 @@ export function SidebarLinks(props) {
               }}
               pt='18px'
               pb='12px'
-              key={index}>
+              key={index}
+              display={isCollapsed ? "none" : "block"}
+            >
               {route.name}
             </Text>
             {createLinks(route.items)}
@@ -57,45 +58,52 @@ export function SidebarLinks(props) {
               <Box>
                 <HStack
                   spacing={
-                    activeRoute(route.path.toLowerCase()) ? "22px" : "26px"
+                    activeRoute(route.path.toLowerCase()) ? "78px" : "82px"
                   }
                   py='5px'
-                  ps='10px'>
-                  <Flex w='100%' alignItems='center' justifyContent='center'>
+                  ps='10px'
+                >
+                  <Flex w='100%' alignItems='center' justifyContent={isCollapsed ? 'center' : 'flex-start'}>
                     <Box
                       color={
                         activeRoute(route.path.toLowerCase())
                           ? activeIcon
                           : textColor
                       }
-                      me='18px'>
+                      me={isCollapsed ? '0' : '18px'}
+                    >
                       {route.icon}
                     </Box>
-                    <Text
-                      me='auto'
-                      color={
-                        activeRoute(route.path.toLowerCase())
-                          ? activeColor
-                          : textColor
-                      }
-                      fontWeight={
-                        activeRoute(route.path.toLowerCase())
-                          ? "bold"
-                          : "normal"
-                      }>
-                      {route.name}
-                    </Text>
+                    {!isCollapsed && (
+                      <Text
+                        me='auto'
+                        color={
+                          activeRoute(route.path.toLowerCase())
+                            ? activeColor
+                            : textColor
+                        }
+                        fontWeight={
+                          activeRoute(route.path.toLowerCase())
+                            ? "bold"
+                            : "normal"
+                        }
+                      >
+                        {route.name}
+                      </Text>
+                    )}
                   </Flex>
-                  <Box
-                    h='36px'
-                    w='4px'
-                    bg={
-                      activeRoute(route.path.toLowerCase())
-                        ? brandColor
-                        : "transparent"
-                    }
-                    borderRadius='5px'
-                  />
+                  {!isCollapsed && (
+                    <Box
+                      h='36px'
+                      w='4px'
+                      bg={
+                        activeRoute(route.path.toLowerCase())
+                          ? brandColor
+                          : "transparent"
+                      }
+                      borderRadius='5px'
+                    />
+                  )}
                 </HStack>
               </Box>
             ) : (
@@ -105,7 +113,8 @@ export function SidebarLinks(props) {
                     activeRoute(route.path.toLowerCase()) ? "22px" : "26px"
                   }
                   py='5px'
-                  ps='10px'>
+                  ps='10px'
+                >
                   <Text
                     me='auto'
                     color={
@@ -115,10 +124,13 @@ export function SidebarLinks(props) {
                     }
                     fontWeight={
                       activeRoute(route.path.toLowerCase()) ? "bold" : "normal"
-                    }>
+                    }
+                  >
                     {route.name}
                   </Text>
-                  <Box h='36px' w='4px' bg='brand.400' borderRadius='5px' />
+                  {!isCollapsed && (
+                    <Box h='36px' w='4px' bg='brand.400' borderRadius='5px' />
+                  )}
                 </HStack>
               </Box>
             )}
