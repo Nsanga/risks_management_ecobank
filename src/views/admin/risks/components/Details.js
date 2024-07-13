@@ -1,6 +1,7 @@
 import { Flex, Input, Text, Select, Textarea, Box, Checkbox, Grid, GridItem, Button } from '@chakra-ui/react';
 import { FaFilePdf, FaFileWord, FaFileAlt, FaFileImage } from 'react-icons/fa';
 import React, { useState } from 'react';
+import DocumentUploader from './DocumentUploader';
 
 const Details = () => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -55,184 +56,184 @@ const Details = () => {
     };
 
     return (
-        <Box p={5} shadow="md" borderWidth="1px" borderRadius="8px" width="100%">
-            <Grid templateColumns="repeat(6, 1fr)" gap={4}>
-                {/* First Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Event Date:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="date" />
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">RAG:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Select placeholder="Select RAG">
+        <Box >
+            <Flex flexDirection='column' gap={4}>
+            <Flex justifyContent='space-between' alignItems="center">
+                <Flex gap={6} alignItems="center">
+                    <Text>Event Date:</Text>
+                    <Box width={200}>
+                        <Input placeholder='Select Date' size='md' type='date' />
+                    </Box>
+                </Flex>
+                <Flex gap={5} alignItems="center">
+                    <Text>RAG:</Text>
+                    <Box width={200}>
+                    <Select placeholder="Select RAG" size='md'>
                         <option value="option1">Option 1</option>
                         <option value="option2">Option 2</option>
                     </Select>
-                </GridItem>
-
-                {/* Second Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Event Time:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="time" />
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Checkbox>Active Event</Checkbox>
-                </GridItem>
-                <GridItem colSpan={2}></GridItem>
-
-                {/* Third Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Recorded By:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">On:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                </GridItem>
-
-                {/* Fourth Row */}
-                <GridItem colSpan={1}>
-                    <Checkbox>External Event</Checkbox>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Text fontWeight="bold">External Ref:</Text>
-                </GridItem>
-                <GridItem colSpan={3}>
-                    <Input placeholder="Enter reference" />
-                </GridItem>
-
-                {/* Fifth and Sixth Row */}
-                <GridItem colSpan={3}>
-                    <Box p={5} shadow="md" borderWidth="1px" borderRadius="8px">
-                        <Text fontWeight="bold" mb={4}>Area of Detection</Text>
-                        <Flex direction="column" gap={2}>
+                    </Box>
+                </Flex>
+                <Flex width={155}>
+                    <Checkbox defaultChecked>Active Event</Checkbox>
+                </Flex>
+            </Flex>
+            <Flex justifyContent='space-between' alignItems="center">
+                <Flex gap={5} alignItems="center">
+                    <Text>Event Time:</Text>
+                    <Box width={200}>
+                        <Input placeholder='Select Date and Time' size='md' type='time' />
+                    </Box>
+                </Flex>
+            </Flex>
+            {/* <Flex justifyContent='space-between' alignItems="center">
+                <Flex gap={5} alignItems="center">
+                    <Text>Recorded by:</Text>
+                    <Text color='blue'>Georges MOUMPOU</Text>
+                </Flex>
+                <Flex gap={5} alignItems="center">
+                    <Text>On:</Text>
+                    <Text color='blue'>30/03/2023 at 15:00</Text>
+                </Flex>
+                <Flex width={155}>
+                    <Checkbox defaultChecked>Exclude Fund Losses</Checkbox>
+                </Flex>
+            </Flex> */}
+            <Flex justifyContent='space-between' alignItems="center">
+                <Checkbox defaultChecked>External Event</Checkbox>
+                <Flex gap={5} alignItems="center">
+                    <Text>External Ref:</Text>
+                    <Box >
+                        <Input placeholder='Select Date and Time' size='md' type='text' />
+                    </Box>
+                </Flex>
+                <Flex width={155}>
+                    <Checkbox defaultChecked>Notify</Checkbox>
+                </Flex>
+            </Flex>
+            <Flex justifyContent='space-between'>
+                <Box p={5} shadow='md' borderWidth='1px' width='49%'>
+                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                        Area of Detection
+                    </Box>
+                    <Flex flexDirection='column' gap={4}>
+                        <Flex justifyContent='space-between' alignItems="center">
                             <Text>Entity:</Text>
-                            <Select placeholder="Select Entity">
+                            <Box width={200}>
+                            <Select placeholder="Select Entity" size='md'>
                                 <option value="option1">Option 1</option>
                                 <option value="option2">Option 2</option>
                             </Select>
+                            </Box>
+                        </Flex>
+                        <Flex justifyContent='space-between' alignItems="center">
                             <Text>Sub Entity:</Text>
-                            <Select placeholder="Select Sub Entity">
-                                <option value="suboption1">Sub Option 1</option>
-                                <option value="suboption2">Sub Option 2</option>
-                            </Select>
+                            <Box width={200}>
+                                <Input placeholder='' size='md' type='text' />
+                            </Box>
+                        </Flex>
+                        <Flex justifyContent='space-between' alignItems="center">
                             <Text>Detection Date:</Text>
-                            <Input type="date" />
+                            <Box width={200}>
+                                <Input placeholder='Select Date' size='md' type='date' />
+                            </Box>
                         </Flex>
+                    </Flex>
+                </Box>
+                <Box p={5} shadow='md' borderWidth='1px' width='49%'>
+                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                        Area of Origin
                     </Box>
-                </GridItem>
-                <GridItem colSpan={3}>
-                    <Box p={5} shadow="md" borderWidth="1px" borderRadius="8px">
-                        <Text fontWeight="bold" mb={4}>Area of Origin</Text>
-                        <Flex direction="column" gap={2}>
+                    <Flex flexDirection='column' gap={4}>
+                        <Flex justifyContent='space-between' alignItems="center">
                             <Text>Entity:</Text>
-                            <Select placeholder="Select Entity">
+                            <Box width={200}>
+                            <Select placeholder="Select Entity" size='md'>
                                 <option value="option1">Option 1</option>
                                 <option value="option2">Option 2</option>
                             </Select>
-                            <Text>Sub Entity:</Text>
-                            <Select placeholder="Select Sub Entity">
-                                <option value="suboption1">Sub Option 1</option>
-                                <option value="suboption2">Sub Option 2</option>
-                            </Select>
+                            </Box>
                         </Flex>
-                    </Box>
-                </GridItem>
+                        <Flex justifyContent='space-between' alignItems="center">
+                            <Text>Sub Entity:</Text>
+                            <Box width={200}>
+                                <Input placeholder='' size='md' type='text' />
+                            </Box>
+                        </Flex>
+                    </Flex>
+                </Box>
+            </Flex>
+            <Box pt={5} pb={5}>
+                <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    Description
+                </Box>
+                <Input placeholder='Event description' />
+            </Box>
+            <Box p={5} shadow='md' borderWidth='1px'>
+                <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    Detailed Description
+                </Box>
+                <Textarea placeholder='Description détaillée' />
+            </Box>
+            <Flex justifyContent='space-between' pt={5}> 
+                <Flex flexDirection='column' gap={2}>
+                    <Flex gap={14} alignItems="center">
+                        <Text>Approved Date:</Text>
+                        <Box width={200}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={16} alignItems="center">
+                        <Text>Closed Date:</Text>
+                        <Box width={200} marginLeft={3}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={6} alignItems="center">
+                        <Text>Target Closure Date:</Text>
+                        <Box width={200}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                </Flex>
+                <Flex flexDirection='column' gap={2}>
+                    <Flex gap={14} alignItems="center">
+                        <Text>Owner:</Text>
+                        <Box width={200} marginLeft={1}>
+                            <Input size='md' type='text' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={10} alignItems="center">
+                        <Text>Nominee:</Text>
+                        <Box width={200} marginLeft={1}>
+                            <Input size='md' type='text' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={10} alignItems="center">
+                        <Text>Reviewer:</Text>
+                        <Box width={200}  marginLeft={1}>
+                            <Input size='md' type='text' />
+                        </Box>
+                    </Flex>
+                    <Flex gap={6} alignItems="center">
+                        <Text>Review Date:</Text>
+                        <Box width={200}>
+                            <Input placeholder='Select Date' size='md' type='date' />
+                        </Box>
+                    </Flex>
+                </Flex>
+            </Flex>
+        </Flex>
 
-                {/* Seventh Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Description:</Text>
-                </GridItem>
-                <GridItem colSpan={5}>
-                    <Input type="text" placeholder="Enter description" />
-                </GridItem>
-
-                {/* Eighth Row */}
-                <GridItem colSpan={6}>
-                    <Text fontWeight="bold">Detailed Description:</Text>
-                    <Textarea placeholder="Enter detailed description" />
-                </GridItem>
-
-                {/* Ninth Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Approved Date:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="date" />
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Owner:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="text" placeholder="Enter owner" />
-                </GridItem>
-
-                {/* Tenth Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Closed Date:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="date" />
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Nominee:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="text" placeholder="Enter nominee" />
-                </GridItem>
-
-                {/* Eleventh Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Target Closure Date:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="date" />
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Reviewer:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="text" placeholder="Enter reviewer" />
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Review Date:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="date" />
-                </GridItem>
-
-                {/* Twelfth Row */}
+            <Box mt={8}>
                 <GridItem colSpan={1}>
                     <Text fontWeight="bold">Documents:</Text>
                 </GridItem>
-                <GridItem colSpan={5}>
-                    <Input type="file" multiple onChange={handleFileChange} />
-                    <Flex direction="column" gap={2} marginBottom={2}>
-                        {uploadedFiles.map((file, index) => (
-                            <Box key={index} borderWidth="1px" borderRadius="10px" p={2} width="fit-content">
-                                {renderPreview(file)}
-                            </Box>
-                        ))}
-                    </Flex>
-                </GridItem>
+                <Box mt={4}>
+                    <DocumentUploader />
+                </Box>
+            </Box>
 
-                {/* Action Buttons */}
-                <GridItem colSpan={6}>
-                    <Flex justifyContent="center" mt={4}>
-                        <Button colorScheme="green" mr={2}>Save And Approve</Button>
-                        <Button colorScheme="blue" mr={2}>Save</Button>
-                        <Button colorScheme="red" mr={2}>Cancel</Button>
-                    </Flex>
-                </GridItem>
-            </Grid>
         </Box>
     );
 }
