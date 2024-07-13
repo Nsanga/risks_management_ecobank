@@ -210,6 +210,7 @@ const Details = () => {
                 </GridItem>
 
                 {/* Twelfth Row */}
+                <Flex>
                 <GridItem colSpan={1}>
                     <Text fontWeight="bold">Documents:</Text>
                 </GridItem>
@@ -223,6 +224,7 @@ const Details = () => {
                         ))}
                     </Flex>
                 </GridItem>
+                </Flex>
 
                 {/* Action Buttons */}
                 <GridItem colSpan={6}>
