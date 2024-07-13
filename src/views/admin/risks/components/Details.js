@@ -1,4 +1,5 @@
-import { Flex, Input, Text, Select, Textarea, Box, Checkbox, Grid, GridItem, Button, Image } from '@chakra-ui/react';
+import { Flex, Input, Text, Select, Textarea, Box, Checkbox, Grid, GridItem, Button } from '@chakra-ui/react';
+import { FaFilePdf, FaFileWord, FaFileAlt, FaFileImage } from 'react-icons/fa';
 import React, { useState } from 'react';
 
 const Details = () => {
@@ -8,21 +9,48 @@ const Details = () => {
         setUploadedFiles([...uploadedFiles, ...Array.from(event.target.files)]);
     };
 
+    const renderIcon = (file) => {
+        const fileType = file.type;
+        if (fileType.startsWith('image/')) {
+            return <FaFileImage size={50} color="blue" />;
+        } else if (fileType === 'application/pdf') {
+            return <FaFilePdf size={50} color="red" />;
+        } else if (fileType.includes('word')) {
+            return <FaFileWord size={50} color="blue" />;
+        } else {
+            return <FaFileAlt size={50} color="gray" />;
+        }
+    };
+
     const renderPreview = (file) => {
         const fileType = file.type;
         if (fileType.startsWith('image/')) {
-            return <Image src={URL.createObjectURL(file)} alt={file.name} boxSize="100px" />;
-        } else if (fileType === 'application/pdf') {
-            return <Text as="a" href={URL.createObjectURL(file)} target="_blank">View PDF</Text>;
-        } else if (fileType.includes('word')) {
             return (
-                <Flex alignItems="center">
-                    <Text as="a" href={URL.createObjectURL(file)} target="_blank" mr={2}>View DOC</Text>
-                    <Text>{file.name}</Text>
-                </Flex>
+                <Box textAlign="center">
+                    {renderIcon(file)}
+                    <Text mt={2}>{file.name}</Text>
+                    <Box mt={2}>
+                        <img src={URL.createObjectURL(file)} alt={file.name} style={{ maxWidth: '50%', height: 'auto' }} />
+                    </Box>
+                </Box>
+            );
+        } else if (fileType === 'application/pdf') {
+            return (
+                <Box textAlign="center">
+                    {renderIcon(file)}
+                    <Text mt={2}>{file.name}</Text>
+                    <Box mt={2}>
+                        <iframe src={URL.createObjectURL(file)} title={file.name} width="50%" height="50px" style={{ border: 'none' }}></iframe>
+                    </Box>
+                </Box>
             );
         } else {
-            return <Text>{file.name}</Text>;
+            return (
+                <Box textAlign="center">
+                    {renderIcon(file)}
+                    <Text mt={2}>{file.name}</Text>
+                </Box>
+            );
         }
     };
 
@@ -174,28 +202,26 @@ const Details = () => {
                 <GridItem colSpan={2}>
                     <Input type="text" placeholder="Enter reviewer" />
                 </GridItem>
-
-                {/* Twelfth Row */}
-                <GridItem colSpan={1}>
-                    <Text fontWeight="bold">Documents:</Text>
-                </GridItem>
-                <GridItem colSpan={2}>
-                    <Input type="file" multiple onChange={handleFileChange} />
-                </GridItem>
-                <GridItem colSpan={3}>
-                    <Flex direction="column" gap={2}>
-                        {uploadedFiles.map((file, index) => (
-                            <Box key={index} borderWidth="1px" borderRadius="8px" p={2}>
-                                {renderPreview(file)}
-                            </Box>
-                        ))}
-                    </Flex>
-                </GridItem>
                 <GridItem colSpan={1}>
                     <Text fontWeight="bold">Review Date:</Text>
                 </GridItem>
                 <GridItem colSpan={2}>
                     <Input type="date" />
+                </GridItem>
+
+                {/* Twelfth Row */}
+                <GridItem colSpan={1}>
+                    <Text fontWeight="bold">Documents:</Text>
+                </GridItem>
+                <GridItem colSpan={5}>
+                    <Input type="file" multiple onChange={handleFileChange} />
+                    <Flex direction="column" gap={2} marginBottom={2}>
+                        {uploadedFiles.map((file, index) => (
+                            <Box key={index} borderWidth="1px" borderRadius="10px" p={2} width="fit-content">
+                                {renderPreview(file)}
+                            </Box>
+                        ))}
+                    </Flex>
                 </GridItem>
 
                 {/* Action Buttons */}
