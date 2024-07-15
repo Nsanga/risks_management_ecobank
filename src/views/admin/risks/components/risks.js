@@ -33,7 +33,7 @@ function Risk() {
     <>
       <Flex justifyContent='flex-end'>
         <Box top="20px">
-          <Button leftIcon={<AddIcon />} onClick={onOpen} variant="outline" colorScheme='blue' size='md'>
+          <Button leftIcon={<AddIcon />} onClick={onOpen} variant="outline" colorScheme='blue' size='sm'>
             Add new event
           </Button>
         </Box>
@@ -49,7 +49,7 @@ function Risk() {
               <TabList>
                 <Tab>Details</Tab>
                 <Tab>Commentary</Tab>
-                <Tab isDisabled>Financials</Tab>
+                <Tab >Financials</Tab>
                 <Tab>Additional info</Tab>
               </TabList>
 
@@ -72,7 +72,6 @@ function Risk() {
 
           <ModalFooter>
             <Button colorScheme="blue" mr={2}>Save</Button>
-            <Button colorScheme="green" mr={2}>Save And Approve</Button>
             <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>

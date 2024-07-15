@@ -5,8 +5,8 @@ const Commentary = () => {
   return (
     <Box>
       <Flex direction="column" gap={4} flex="2">
-        <Text fontWeight="bold">Commentary</Text>
-        <Textarea />
+        <Text fontWeight="bold" fontSize={14}>Commentary</Text>
+        <Textarea size='sm'/>
       </Flex>
     </Box>
   );

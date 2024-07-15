@@ -22,7 +22,6 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { ChevronRightIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { MdUploadFile } from 'react-icons/md';
 import data from '../Data';
 import MultiLevelList from './NestedListItem ';
@@ -49,24 +48,33 @@ const Additional = () => {
     setIsOpen(false);
   };
 
+  const handleSubmit = () => {
+    const payload = Object.keys(selectedDescriptions).map(index => ({
+      category: data[index].title,
+      description: selectedDescriptions[index]
+    }));
+    console.log('Payload:', payload);
+    // Vous pouvez envoyer le payload à un serveur ici si nécessaire
+  };
+
   return (
     <>
       <Table variant="simple">
         <Thead>
           <Tr>
-            <Th>Category</Th>
-            <Th>Select</Th>
-            <Th>Description</Th>
+            <Th fontSize={12}>Category</Th>
+            <Th fontSize={12}>Select</Th>
+            <Th fontSize={12}>Description</Th>
           </Tr>
         </Thead>
         <Tbody>
           {data.map((item, index) => (
             <Tr key={index}>
-              <Td>{item.title}</Td>
+              <Td fontSize={14}>{item.title}</Td>
               <Td onClick={() => handleCellClick(index, item.title)}>
                 <Button variant="link" color="blue"><MdUploadFile /></Button>
               </Td>
-              <Td>{selectedDescriptions[index]}</Td>
+              <Td fontSize={14}>{selectedDescriptions[index]}</Td>
             </Tr>
           ))}
         </Tbody>

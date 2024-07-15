@@ -1,100 +1,72 @@
-import { Box, Flex, Input, Text, Select, Textarea } from '@chakra-ui/react';
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react'
 import React, { useState } from 'react';
+import { Table, Thead, Tbody, Tr, Th, Td, Input, Button, Box } from '@chakra-ui/react';
 
 const Finances = () => {
-  const [value, setvalue] = useState();
+  const initialData = [
+    { id: 1, name: 'Actual Loss', values: [0, 0, 0, 0, 0] },
+    { id: 2, name: 'Potential Loss', values: [0, 0, 0, 0, 0] },
+    { id: 3, name: 'Actual Recovery', values: [0, 0, 0, 0, 0] },
+    { id: 4, name: 'Expected Recovery', values: [0, 0, 0, 0, 0] },
+    { id: 5, name: 'Recovery Expenses', values: [0, 0, 0, 0, 0] },
+    { id: 6, name: 'Insurance Recovery', values: [0, 0, 0, 0, 0] },
+    { id: 7, name: 'Near Miss', values: [0, 0, 0, 0, 0] },
+    { id: 8, name: 'Total', values: [0, 0, 0, 0, 0] }
+  ];
+
+  const [tableData, setTableData] = useState(initialData);
+
+  const handleInputChange = (id, index, value) => {
+    const newData = tableData.map(row => {
+      if (row.id === id) {
+        const newValues = [...row.values];
+        newValues[index] = value === '' ? 0 : value;
+        return { ...row, values: newValues };
+      }
+      return row;
+    });
+    setTableData(newData);
+  };
+
+  const handleButtonClick = () => {
+    const payload = tableData;
+    console.log('Payload:', payload);
+    // You can replace the above console.log with an API call or any other logic to send the payload
+  };
+
   return (
     <Box>
-      <Flex alignItems="center" justify="space-between" mb={12}>
-        <Flex align="center" gap={8}>
-          <Box width='100%'>
-            <Text>Head office currency:</Text>
-          </Box>
-          <Input
-            value={value}
-            placeholder='USD'
-            size='sm'
-          />
-        </Flex>
-        <Flex align="center" gap={4}>
-          <Box width='100%'>
-            <Text>Total currencies:</Text>
-          </Box>
-          <Select>
-            <option value="USD">USD</option>
-            <option value="XAF">XAF</option>
-            <option value="EUR">EUR</option>
-            <option value="YEN">YEN</option>
-          </Select>
-        </Flex>
-      </Flex>
-      <Box p={5} shadow='md' borderWidth='1px'>
-        <Flex direction="column" gap={4} flex="2">
-          <Text fontWeight="bold">Direct for event </Text>
-          <TableContainer>
-            <Table variant='simple'>
-              <Thead>
-                <Tr>
-                  <Th></Th>
-                  <Th>Total</Th>
-                  <Th isNumeric>Direct</Th>
-                  <Th isNumeric>Regulatory fines</Th>
-                  <Th isNumeric>Asset write-down</Th>
-                  <Th isNumeric>Orther</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>Actual loss</Td>
-                  <Td>1,047</Td>
-                  <Td isNumeric>1,047</Td>
-                  <Td isNumeric>0</Td>
-                  <Td isNumeric>0</Td>
-                  <Td isNumeric>0</Td>
-                </Tr>
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Flex>
-      </Box>
-      <Box p={5} shadow='md' borderWidth='1px'mt={8}>
-        <Flex direction="column" gap={4} flex="2">
-          <Text fontWeight="bold">Indirect for event </Text>
-          <TableContainer>
-            <Table variant='simple'>
-              <Thead>
-                <Tr>
-                  <Th></Th>
-                  <Th>Total</Th>
-                  <Th isNumeric>Indirect</Th>
-                  <Th isNumeric>Business Description</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                <Tr>
-                  <Td>Actual loss</Td>
-                  <Td isNumeric>0</Td>
-                  <Td isNumeric>0</Td>
-                  <Td isNumeric>0</Td>
-                </Tr>
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Flex>
-      </Box>
+      <Table variant="simple">
+        <Thead>
+          <Tr>
+            <Th textAlign="start"></Th>
+            <Th textAlign="start" fontSize={12}>Total</Th>
+            <Th textAlign="start" fontSize={12}>Direct</Th>
+            <Th textAlign="start" fontSize={12}>Regulatory fines</Th>
+            <Th textAlign="start" fontSize={12}>Asset write-down</Th>
+            <Th textAlign="start" fontSize={12}>Other</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {tableData.map(row => (
+            <Tr key={row.id}>
+              <Td fontSize={14} width='15%'>{row.name}</Td>
+              {row.values.map((value, index) => (
+                <Td key={index}>
+                  <Input
+                    value={value}
+                    onChange={e => handleInputChange(row.id, index, e.target.value)}
+                  />
+                </Td>
+              ))}
+            </Tr>
+          ))}
+        </Tbody>
+      </Table>
+      {/* <Button mt={4} colorScheme="blue" onClick={handleButtonClick}>
+        Send Payload
+      </Button> */}
     </Box>
   );
-}
+};
 
 export default Finances;
