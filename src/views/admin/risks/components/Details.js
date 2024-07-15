@@ -8,19 +8,6 @@ import Profiles from '../profiles';
 const Details = () => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
 
-    const renderIcon = (file) => {
-        const fileType = file.type;
-        if (fileType.startsWith('image/')) {
-            return <FaFileImage size={50} color="blue" />;
-        } else if (fileType === 'application/pdf') {
-            return <FaFilePdf size={50} color="red" />;
-        } else if (fileType.includes('word')) {
-            return <FaFileWord size={50} color="blue" />;
-        } else {
-            return <FaFileAlt size={50} color="gray" />;
-        }
-    };
-
     const [options, setOptions] = useState([]);
 
     useEffect(() => {
@@ -55,7 +42,7 @@ const Details = () => {
       };
 
     return (
-        <Box >
+        <Box>
             <Flex flexDirection='column' gap={4}>
                 <Flex justifyContent='space-between' alignItems="center">
                     <Flex gap={6} alignItems="center">
@@ -85,11 +72,11 @@ const Details = () => {
                 <Flex justifyContent='space-between' alignItems="center">
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Recorded by:</Text>
-                        <Text color='blue'>Georges MOUMPOU</Text>
+                        <Text color='blue' fontSize={14}>Georges MOUMPOU</Text>
                     </Flex>
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>On:</Text>
-                        <Text color='blue'>30/03/2023</Text>
+                        <Text color='blue' fontSize={14}>30/03/2023</Text>
                     </Flex>
                     <Flex width={155}>
                         <Checkbox size='sm'>Exclude Fund Losses</Checkbox>
@@ -223,7 +210,6 @@ const Details = () => {
                     <DocumentUploader />
                 </Box>
             </Box>
-
         </Box>
     );
 }
