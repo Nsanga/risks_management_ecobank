@@ -66,7 +66,7 @@ export function SearchBar(props) {
             <Box>{placeholder}</Box>
           </InputLeftElement>
           <Input
-            placeholder={placeholder}
+            placeholder='ref number'
             value={inputValue}
             onChange={handleInputChange}
             // pl={placeholder.length * 8} // Adjust the padding to fit the prefix length
