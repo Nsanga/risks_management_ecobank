@@ -31,15 +31,15 @@ function Risk() {
 
   return (
     <>
-    <Flex justifyContent='flex-end'>
-      <Box  top="20px">
-        <Button leftIcon={<AddIcon/>} onClick={onOpen} variant="outline" colorScheme='blue' size='md'>
-    Add new event
-  </Button>
-      </Box>
+      <Flex justifyContent='flex-end'>
+        <Box top="20px">
+          <Button leftIcon={<AddIcon />} onClick={onOpen} variant="outline" colorScheme='blue' size='md'>
+            Add new event
+          </Button>
+        </Box>
       </Flex>
 
-      <Modal isOpen={isOpen} onClose={onClose} size="5xl" scrollBehavior="inside">
+      <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside" size='full'>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>New event</ModalHeader>
@@ -64,19 +64,16 @@ function Risk() {
                   <Finances />
                 </TabPanel>
                 <TabPanel>
-                <Additional />
+                  <Additional />
                 </TabPanel>
               </TabPanels>
             </Tabs>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              Cancel
-            </Button>
+            <Button colorScheme="blue" mr={2}>Save</Button>
+            <Button colorScheme="green" mr={2}>Save And Approve</Button>
+            <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
