@@ -78,7 +78,7 @@ export function SearchBar(props) {
             size="sm"
             onClick={handleSearch}
           />
-        </InputGroup>
+        </InputGroup> 
       </Box>
     </div>
     // <InputGroup w={{ base: "100%", md: "200px" }} {...rest}>
