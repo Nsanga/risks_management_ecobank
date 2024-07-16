@@ -21,13 +21,34 @@ import Commentary from "./Commentary";
 import Finances from "./Finances";
 import { AddIcon } from "@chakra-ui/icons";
 import Additional from "./Additional";
-
-
-
-
+import GlobalViewEvent from "./globalViewEvent/GlobalViewEvent";
+import { useState } from "react";
+import data from "../Data";
 
 function Risk() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [detailsData, setDetailsData] = useState({});
+  const [commentaryData, setCommentaryData] = useState({});
+  const [financesData, setFinancesData] = useState([]);
+  const [additionalData, setAdditionalData] = useState({});
+
+  const categories = data.map(item => item.title);
+
+  const handleDetailsChange = (data) => {
+    setDetailsData(data);
+  };
+
+  const handleCommentaryChange = (data) => {
+    setCommentaryData(data);
+  };
+
+  const handleFinancesChange = (data) => {
+    setFinancesData(data);
+  };
+
+  const handleAdditionalChange = (data) => {
+    setAdditionalData(data);
+  };
 
   return (
     <>
@@ -50,28 +71,28 @@ function Risk() {
                 <Tab>Details</Tab>
                 <Tab>Commentary</Tab>
                 <Tab >Financials</Tab>
-                <Tab>Additional info</Tab>
+                <Tab>Additional info <span style={{color:'red'}}>*</span></Tab>
               </TabList>
 
               <TabPanels>
                 <TabPanel>
-                  <Details />
+                  <Details onDetailsChange={handleDetailsChange}/>
                 </TabPanel>
                 <TabPanel>
-                  <Commentary />
+                  <Commentary onCommentaryChange={handleCommentaryChange} />
                 </TabPanel>
                 <TabPanel>
-                  <Finances />
+                  <Finances onFinancesChange={handleFinancesChange}/>
                 </TabPanel>
                 <TabPanel>
-                  <Additional />
+                  <Additional onAdditionalChange={handleAdditionalChange}/>
                 </TabPanel>
               </TabPanels>
             </Tabs>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={2}>Save</Button>
+            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories}/>
             <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
