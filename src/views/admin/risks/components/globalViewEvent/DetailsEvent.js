@@ -64,7 +64,7 @@ const DetailsEvent = (
                 </Flex>
                 <Flex justifyContent='space-between'>
                     <Box p={5} shadow='md' borderWidth='1px' width='49%'>
-                        <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                        <Box bg='blue.400' color='#FFF' mb={6} padding={2}>
                             Area of Detection
                         </Box>
                         <Flex flexDirection='column' gap={4}>
@@ -89,7 +89,7 @@ const DetailsEvent = (
                         </Flex>
                     </Box>
                     <Box p={5} shadow='md' borderWidth='1px' width='49%'>
-                        <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                        <Box bg='blue.400' color='#FFF' mb={6} padding={2}>
                             Area of Origin
                         </Box>
                         <Flex flexDirection='column' gap={4}>
@@ -109,13 +109,13 @@ const DetailsEvent = (
                     </Box>
                 </Flex>
                 <Box pt={5} pb={5}>
-                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    <Box bg='blue.400' color='#FFF' mb={6} padding={2}>
                         Description
                     </Box>
                     <Text color='blue' fontSize={14}>{detailsData.description}</Text>
                 </Box>
                 <Box p={5} shadow='md' borderWidth='1px'>
-                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    <Box bg='blue.400' color='#FFF' mb={6} padding={2}>
                         Detailed Description
                     </Box>
                     <Text color='blue' fontSize={14}>{detailsData.descriptionDetailled}</Text>
