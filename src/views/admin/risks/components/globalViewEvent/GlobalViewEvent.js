@@ -26,7 +26,7 @@ const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additional
 
     return (
         <>
-            <Button disabled={!detailsData.owner || !detailsData.nominee || !detailsData.entityAreaOfDetection } onClick={onOpen} colorScheme="blue" mr={2}>Save</Button>
+            <Button disabled={!detailsData.owner || !detailsData.nominee } onClick={onOpen} colorScheme="blue" mr={2}>Save</Button>
 
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} scrollBehavior="inside" size='5xl'>
                 <ModalOverlay />
