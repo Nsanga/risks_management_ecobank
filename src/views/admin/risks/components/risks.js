@@ -63,11 +63,7 @@ function Risk() {
               <TabList>
                 <Tab>Details</Tab>
                 <Tab>Commentary</Tab>
-<<<<<<< HEAD
                 <Tab>Financials</Tab>
-=======
-                <Tab >Financials</Tab>
->>>>>>> d92e95da1d74b12256781885eeaf3741ff0d39e2
                 <Tab>Additional info</Tab>
               </TabList>
 
@@ -89,12 +85,8 @@ function Risk() {
           </ModalBody>
 
           <ModalFooter>
-<<<<<<< HEAD
             <Button colorScheme="blue" mr={2} onClick={handleSave}>Save</Button>
             <Button colorScheme="green" mr={2}>Save And Approve</Button>
-=======
-            <Button colorScheme="blue" mr={2}>Save</Button>
->>>>>>> d92e95da1d74b12256781885eeaf3741ff0d39e2
             <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
