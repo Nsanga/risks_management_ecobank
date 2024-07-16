@@ -5,7 +5,7 @@ import CardDetails from './components/cardDetails';
 
 const Risks = () => {
   // Create an array with 10 elements
-  const cardDetailsArray = Array.from({ length: 10 });
+  const cardDetailsArray = Array.from({ length: 5 });
 
   return (
     <Card mt="100px">

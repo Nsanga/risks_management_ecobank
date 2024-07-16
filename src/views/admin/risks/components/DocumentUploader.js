@@ -7,7 +7,7 @@ import { url } from 'urlLoader';
 import { FaFile, FaFileVideo, FaUpload } from 'react-icons/fa';
 
 const DocumentUploader = ({ onMediaUpload }) => {
-    const [mediaData, setMediaData] = useState(null);
+    const [mediaData, setMediaData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -25,12 +25,11 @@ const DocumentUploader = ({ onMediaUpload }) => {
             reader.onerror = () => console.log('file reading has failed');
             reader.onload = () => {
                 const binaryStr = reader.result;
-                setMediaData({ dataURL: binaryStr, file });
+                setMediaData(prevState => [...prevState, { dataURL: binaryStr, file }]);
                 uploadToCloudinary(file);
             };
             reader.readAsDataURL(file);
         });
-
     }, []);
 
     const uploadToCloudinary = async (file) => {
@@ -53,48 +52,51 @@ const DocumentUploader = ({ onMediaUpload }) => {
         }
     };
 
-    const handleRemoveMedia = () => {
-        setMediaData(null);
+    const handleRemoveMedia = (file) => {
+        setMediaData(prevState => prevState.filter(media => media.file !== file));
     };
 
     const { getRootProps, getInputProps } = useDropzone({
         onDrop,
-        maxSize: 20 * 1024 * 1024
+        maxSize: 20 * 1024 * 1024,
+        multiple: true
     });
 
     return (
-        <div {...getRootProps()} style={{ display: 'flex', border: '2px dashed #ccc', padding: '20px', justifyContent: 'center' }}>
+        <div {...getRootProps()} style={{ display: 'flex', flexDirection: 'row', border: '2px dashed #ccc', padding: '20px', justifyContent: 'center' }}>
             <input {...getInputProps()} />
-            <div style={{ cursor: 'pointer' }}><FaUpload size='70px' /></div>
-            {isLoading ? (
-                <Spinner color='blue.500' size='sm' />
-            ) : (
-                mediaData && (
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        {mediaData.file.type.startsWith('image') ? (
-                            <img src={mediaData.dataURL} alt="Media Preview" style={{ maxWidth: '100%', maxHeight: '200px' }} />
-                        ) : mediaData.file.type.startsWith('video') ? (
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <FaFileVideo size={50} style={{ marginRight: '10px' }} />
-                                <Box>{mediaData.file.name}</Box>
-                            </div>
-                        ) : (
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <FaFile size={50} style={{ marginRight: '10px' }} />
-                                <Box>{mediaData.file.name}</Box>
-                            </div>
-                        )}
-                        <IconButton
-                            icon={<CloseIcon />}
-                            aria-label="Supprimer l'image"
-                            onClick={handleRemoveMedia}
-                            variant="ghost"
-                            size="sm"
-                            colorScheme="red"
-                        />
-                    </div>
-                )
+
+            {mediaData.length > 0 && (
+                <Box mt={4} display="flex" justifyContent='center' alignItems="center" mr={2}>
+                    {mediaData.map((media, index) => (
+                        <Box key={index} display="flex" justifyContent="space-between" alignItems="center" mb={4}>
+                            {media.file.type.startsWith('image') ? (
+                                <img src={media.dataURL} alt="Media Preview" style={{ maxWidth: '50%', maxHeight: '100px' }} />
+                            ) : media.file.type.startsWith('video') ? (
+                                <Box display="flex" flexDirection='column' justifyContent='center' alignItems="center">
+                                    <FaFileVideo size={50} style={{ marginRight: '10px' }} />
+                                    <Box>{media.file.name}</Box>
+                                </Box>
+                            ) : (
+                                <Box display="flex" flexDirection='column' justifyContent='center' alignItems="center">
+                                    <FaFile size={50} style={{ marginRight: '10px' }} />
+                                    <Box>{media.file.name}</Box>
+                                </Box>
+                            )}
+                            <IconButton
+                                icon={<CloseIcon />}
+                                aria-label="Supprimer l'image"
+                                onClick={() => handleRemoveMedia(media.file)}
+                                variant="ghost"
+                                size="sm"
+                                colorScheme="red"
+                            />
+                        </Box>
+                    ))}
+                </Box>
             )}
+            <div style={{ cursor: 'pointer' }}><FaUpload size='70px' /></div>
+            {isLoading && <Spinner color='blue.500' size='sm' />}
             {error && (
                 <Alert status="error" mt={4}>
                     <AlertIcon />

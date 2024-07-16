@@ -17,21 +17,17 @@ import { PhoneIcon, SearchIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
 
 export function SearchBar(props) {
-  // Pass the computed styles into the `__css` prop
   const { variant, background, children, borderRadius, ...rest } = props;
-  // Chakra Color Mode
   const searchIconColor = useColorModeValue("gray.700", "white");
   const inputBg = useColorModeValue("secondaryGray.300", "navy.900");
   const inputText = useColorModeValue("gray.700", "gray.100");
   const [value, setValue] = React.useState('1');
+  const [inputValue, setInputValue] = React.useState('');
   const [placeholder, setPlaceholder] = React.useState('RSK');
   const history = useHistory();
 
   const handleSearch = () => {
-    // Redirect to the desired screen
-    history.push('/admin/event'); // Replace '/desired-screen' with the path you want to redirect to
-    // OR
-    // window.location.href = '/desired-screen'; // Another way to redirect
+    history.push('/admin/event');
   };
 
   const handleRadioChange = (nextValue) => {
@@ -45,6 +41,11 @@ export function SearchBar(props) {
       '6': 'KRI',
     };
     setPlaceholder(placeholders[nextValue]);
+  };
+
+  const handleInputChange = (event) => {
+    const input = event.target.value;
+      setInputValue(input);
   };
 
   return (
@@ -61,18 +62,22 @@ export function SearchBar(props) {
       </RadioGroup>
       <Box style={{ width: 180 }}>
         <InputGroup>
-          <Input placeholder={placeholder} />
-          <InputRightElement>
-            <Box style={{ margin: 12 }}>
-              <IconButton
-                aria-label='Search database'
-                icon={<SearchIcon />}
-                variant='solid'
-                size="sm"
-                onClick={handleSearch}
-              />
-            </Box>
-          </InputRightElement>
+          <InputLeftElement pointerEvents="none">
+            <Box>{placeholder}</Box>
+          </InputLeftElement>
+          <Input
+            placeholder='ref number'
+            value={inputValue}
+            onChange={handleInputChange}
+            // pl={placeholder.length * 8} // Adjust the padding to fit the prefix length
+          />
+          <IconButton
+            aria-label='Search database'
+            icon={<SearchIcon />}
+            variant='solid'
+            size="sm"
+            onClick={handleSearch}
+          />
         </InputGroup>
       </Box>
     </div>
