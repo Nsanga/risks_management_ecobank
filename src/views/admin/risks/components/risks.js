@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -22,25 +21,33 @@ import Commentary from "./Commentary";
 import Finances from "./Finances";
 import { AddIcon } from "@chakra-ui/icons";
 import Additional from "./Additional";
-import Review from "./Review";
+import GlobalViewEvent from "./globalViewEvent/GlobalViewEvent";
+import { useState } from "react";
+import data from "../Data";
 
 function Risk() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isOpen: isReviewOpen, onOpen: onReviewOpen, onClose: onReviewClose } = useDisclosure();
+  const [detailsData, setDetailsData] = useState({});
+  const [commentaryData, setCommentaryData] = useState({});
+  const [financesData, setFinancesData] = useState([]);
+  const [additionalData, setAdditionalData] = useState({});
 
-  const [details, setDetails] = useState({});
-  const [commentary, setCommentary] = useState('');
-  const [financials, setFinancials] = useState('');
-  const [additional, setAdditional] = useState('');
+  const categories = data.map(item => item.title);
 
-  const handleSave = () => {
-    // Assume form data is saved into state here
-    // For example:
-    setDetails({ eventDate: 'date', rag: 'Red', activeEvent: true, externalEvent: false, externalRef: '12345', notify: true, detectionEntity: 'Entity A', detectionSubEntity: 'Sub Entity A', detectionDate: 'date', originEntity: 'Entity B', originSubEntity: 'Sub Entity B', description: 'Description text', detailedDescription: 'Detailed description text', approvedDate: 'date', closedDate: 'date', targetClosureDate: 'date', owner: 'Owner Name', nominee: 'Nominee Name', reviewer: 'Reviewer Name', reviewDate: 'date' });
-    setCommentary('Commentary text');
-    setFinancials('Financials text');
-    setAdditional('Additional info text');
-    onReviewOpen();
+  const handleDetailsChange = (data) => {
+    setDetailsData(data);
+  };
+
+  const handleCommentaryChange = (data) => {
+    setCommentaryData(data);
+  };
+
+  const handleFinancesChange = (data) => {
+    setFinancesData(data);
+  };
+
+  const handleAdditionalChange = (data) => {
+    setAdditionalData(data);
   };
 
   return (
@@ -63,46 +70,30 @@ function Risk() {
               <TabList>
                 <Tab>Details</Tab>
                 <Tab>Commentary</Tab>
-                <Tab>Financials</Tab>
-                <Tab>Additional info</Tab>
+                <Tab >Financials</Tab>
+                <Tab>Additional info <span style={{color:'red'}}>*</span></Tab>
               </TabList>
 
               <TabPanels>
                 <TabPanel>
-                  <Details onDetailsChange={setDetails} />
+                  <Details onDetailsChange={handleDetailsChange}/>
                 </TabPanel>
                 <TabPanel>
-                  <Commentary onCommentaryChange={setCommentary} />
+                  <Commentary onCommentaryChange={handleCommentaryChange} />
                 </TabPanel>
                 <TabPanel>
-                  <Finances onFinancialsChange={setFinancials} />
+                  <Finances onFinancesChange={handleFinancesChange}/>
                 </TabPanel>
                 <TabPanel>
-                  <Additional onAdditionalChange={setAdditional} />
+                  <Additional onAdditionalChange={handleAdditionalChange}/>
                 </TabPanel>
               </TabPanels>
             </Tabs>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={2} onClick={handleSave}>Save</Button>
-            <Button colorScheme="green" mr={2}>Save And Approve</Button>
+            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories}/>
             <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <Modal isOpen={isReviewOpen} onClose={onReviewClose} scrollBehavior="inside" size='full'>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Review Event Information</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Review details={details} commentary={commentary} financials={financials} additional={additional} />
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="green" mr={2}>Approve</Button>
-            <Button colorScheme="red" mr={2} onClick={onReviewClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
