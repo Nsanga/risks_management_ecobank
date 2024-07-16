@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, Input, Button, Box } from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import { Table, Thead, Tbody, Tr, Th, Td, Input, Box } from '@chakra-ui/react';
 
-const Finances = () => {
+const Finances = ({ onFinancesChange }) => {
   const initialData = [
     { id: 1, name: 'Actual Loss', values: [0, 0, 0, 0, 0] },
     { id: 2, name: 'Potential Loss', values: [0, 0, 0, 0, 0] },
@@ -15,23 +15,50 @@ const Finances = () => {
 
   const [tableData, setTableData] = useState(initialData);
 
+  const calculateTotals = (data) => {
+    const totals = [0, 0, 0, 0, 0];
+    data.forEach(row => {
+      if (row.name !== 'Total') {
+        row.values.forEach((value, index) => {
+          totals[index] += value;
+        });
+      }
+    });
+    return totals;
+  };
+
   const handleInputChange = (id, index, value) => {
     const newData = tableData.map(row => {
       if (row.id === id) {
         const newValues = [...row.values];
-        newValues[index] = value === '' ? 0 : value;
+        newValues[index] = value === '' ? 0 : parseInt(value, 10);
         return { ...row, values: newValues };
       }
       return row;
     });
-    setTableData(newData);
+
+    const totals = calculateTotals(newData);
+
+    const updatedData = newData.map(row => {
+      if (row.name === 'Total') {
+        return { ...row, values: totals };
+      }
+      return row;
+    });
+
+    setTableData(updatedData);
+    onFinancesChange(updatedData); // Notify parent about changes
   };
 
-  const handleButtonClick = () => {
-    const payload = tableData;
-    console.log('Payload:', payload);
-    // You can replace the above console.log with an API call or any other logic to send the payload
-  };
+  useEffect(() => {
+    const totals = calculateTotals(tableData);
+    setTableData(prevData => prevData.map(row => {
+      if (row.name === 'Total') {
+        return { ...row, values: totals };
+      }
+      return row;
+    }));
+  }, []);
 
   return (
     <Box>
@@ -55,6 +82,7 @@ const Finances = () => {
                   <Input
                     value={value}
                     onChange={e => handleInputChange(row.id, index, e.target.value)}
+                    isReadOnly={row.name === 'Total'} // Make the "Total" row read-only
                   />
                 </Td>
               ))}

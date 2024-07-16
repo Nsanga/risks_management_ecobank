@@ -26,7 +26,7 @@ import { MdUploadFile } from 'react-icons/md';
 import data from '../Data';
 import MultiLevelList from './NestedListItem ';
 
-const Additional = () => {
+const Additional = ({ onAdditionalChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedDescriptions, setSelectedDescriptions] = useState({});
@@ -42,6 +42,10 @@ const Additional = () => {
       [selectedCategory.index]: item,
     }));
     setIsOpen(false);
+    onAdditionalChange({
+      ...selectedDescriptions,
+      [selectedCategory.index]: item,
+    });
   };
 
   const closeModal = () => {
@@ -70,7 +74,7 @@ const Additional = () => {
         <Tbody>
           {data.map((item, index) => (
             <Tr key={index}>
-              <Td fontSize={14}>{item.title}</Td>
+              <Td fontSize={14}>{item.title} <span style={{color:'red'}}>*</span></Td>
               <Td onClick={() => handleCellClick(index, item.title)}>
                 <Button variant="link" color="blue"><MdUploadFile /></Button>
               </Td>
