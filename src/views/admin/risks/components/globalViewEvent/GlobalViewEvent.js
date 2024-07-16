@@ -39,7 +39,7 @@ const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additional
                                 <Tab>Details</Tab>
                                 <Tab>Commentary</Tab>
                                 <Tab >Financials</Tab>
-                                <Tab>Additional info</Tab>
+                                <Tab>Additional info</Tab> 
                             </TabList>
 
                             <TabPanels>
