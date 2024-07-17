@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, Input, Box } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, Input, Box, Flex, Select, Text } from '@chakra-ui/react';
 
 const Finances = ({ onFinancesChange }) => {
   const initialData = [
@@ -14,6 +14,8 @@ const Finances = ({ onFinancesChange }) => {
   ];
 
   const [tableData, setTableData] = useState(initialData);
+  const [totalCurrencies, setTotalCurrencies] = useState('');
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
   const calculateTotals = (data) => {
     const totals = [0, 0, 0, 0, 0];
@@ -60,8 +62,37 @@ const Finances = ({ onFinancesChange }) => {
     }));
   }, []);
 
+  const handleCurrencyChange = (e) => {
+    const currency = e.target.value;
+    setSelectedCurrency(currency);
+    setTotalCurrencies(prev => `${prev.split(' ')[0]} ${currency}`);
+  };
+
   return (
     <Box>
+      <Flex justifyContent="space-between" mb={4}>
+        <Box flex="1" mr={2}>
+          <Text fontSize={14}>Total Currencies :</Text>
+          <Input
+            placeholder="Total Currencies"
+            value={totalCurrencies}
+            onChange={(e) => setTotalCurrencies(e.target.value)}
+            type="text"
+          />
+        </Box>
+        <Box flex="1" ml={2}>
+          <Text fontSize={14}>Currencies :</Text>
+          <Select
+            placeholder="Select currency"
+            value={selectedCurrency}
+            onChange={handleCurrencyChange}
+          >
+            <option value="USD">USD</option>
+            <option value="XAF">XAF</option>
+            <option value="EUR">EUR</option>
+          </Select>
+        </Box>
+      </Flex>
       <Table variant="simple">
         <Thead>
           <Tr>
