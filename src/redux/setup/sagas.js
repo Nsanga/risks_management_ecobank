@@ -1,6 +1,7 @@
 import { all } from 'redux-saga/effects';
 import AccountSaga from 'redux/accountManagement/saga';
 import CampaignSaga from 'redux/campagne/saga';
+import EventSaga from 'redux/events/saga';
 import LoginSaga from 'redux/login/saga';
 import PlateformeSaga from 'redux/plateforme/saga';
 import ServiceSaga from 'redux/service/saga';
@@ -16,6 +17,7 @@ export default function* Sagas() {
     CampaignSaga(),
     UserSaga(),
     AccountSaga(),
-    LoginSaga()
+    LoginSaga(),
+    EventSaga()
   ]);
 }

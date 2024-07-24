@@ -4,27 +4,33 @@ import { FaFilePdf, FaFileWord, FaFileAlt, FaFileImage } from 'react-icons/fa';
 import React, { useEffect, useState } from 'react';
 import DocumentUploader from './DocumentUploader';
 import Profiles from '../profiles';
+import Entity from '../entity';
+import RAG from '../RAG';
+import entityAreaOfOrigin from '../entityOfOrigin';
 
 const Details = ({ onDetailsChange }) => {
     const [options, setOptions] = useState([]);
+    const [entity, setEntity] = useState([]);
+    const [entityOfOrigin, setEntityOfOrigin] = useState([]);
+    const [rag, setRag] = useState([]);
     const [formData, setFormData] = useState({
-        eventDate: '',
+        event_date: '',
         RAG: '',
         activeEvent: false,
-        eventTime: '',
+        event_time: '',
         excludeFundLosses: false,
         externalEvent: false,
         externalRef: '',
         notify: false,
-        entityAreaOfDetection: '',
-        subEntityAreaOfDetection: '',
+        entityOfDetection: '',
+        subentityOfDetection: '',
         detectionDate: '',
-        entityAreaOfOrigin: '',
-        subEntityAreaOfOrigin: '',
+        entityOfOrigin: '',
+        subentityOfOrigin: '',
         description: '',
         descriptionDetailled: '',
         approvedDate: '',
-        closedDate: '',
+        closed_date: '',
         targetClosureDate: '',
         owner: { value: '', label: '' },
         nominee: { value: '', label: '' },
@@ -37,12 +43,39 @@ const Details = ({ onDetailsChange }) => {
         const loadOptions = async () => {
             const formattedOptions = Profiles.map(user => ({
                 value: user.id,
-                label: `${user.name}`
+                label: `${user.email}`
             }));
             setOptions(formattedOptions);
         };
 
+        const loadEntity = async () => {
+            const formattedEntities = Entity.map(entity => ({
+                value: entity.id,
+                label: `${entity.name}`
+            }));
+            setEntity(formattedEntities);
+        };
+
+        const loadEntityOfOrigin = async () => {
+            const formattedEntityOfOrigin = entityAreaOfOrigin.map(entity => ({
+                value: entity.id,
+                label: `${entity.name}`
+            }));
+            setEntityOfOrigin(formattedEntityOfOrigin);
+        };
+
+        const loadRag = async () => {
+            const formattedRag = RAG.map(rag => ({
+                value: rag.id,
+                label: `${rag.name}`
+            }));
+            setRag(formattedRag);
+        };
+
         loadOptions();
+        loadEntity();
+        loadEntityOfOrigin();
+        loadRag();
     }, []);
 
     const customStyles = {
@@ -72,6 +105,19 @@ const Details = ({ onDetailsChange }) => {
         });
     };
 
+    const handleUploadLinks = (newLinks) => {
+        setFormData(prevData => {
+            const updatedDocuments = [...prevData.documents, ...newLinks];
+            const newData = { ...prevData, documents: updatedDocuments };
+            onDetailsChange(newData); // Notify parent about changes
+            return newData;
+        });
+    };
+
+    const handleSubmit = () => {
+        console.log('Payload:', formData);
+    };
+
     return (
         <Box>
             <Flex flexDirection='column' gap={4}>
@@ -79,13 +125,13 @@ const Details = ({ onDetailsChange }) => {
                     <Flex gap={6} alignItems="center">
                         <Text fontSize={14}>Event Date :</Text>
                         <Box width={200}>
-                            <Input placeholder='Select Date' size='sm' type='date' value={formData.eventDate} onChange={(e) => handleInputChange('eventDate', e.target.value)} />
+                            <Input placeholder='Select Date' size='sm' type='date' value={formData.event_date} onChange={(e) => handleInputChange('event_date', e.target.value)} />
                         </Box>
                     </Flex>
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>RAG :</Text>
                         <Box width={200}>
-                            <Select placeholder="Select RAG" styles={customStyles} value={options.find(option => option.value === formData.RAG)} onChange={(selectedOption) => handleInputChange('RAG', selectedOption ? selectedOption.value : '')}/>
+                            <Select options={rag} styles={customStyles} placeholder='Select RAG' value={rag.find(rag => rag.value === formData.RAG.value)} onChange={(selectedOption) => handleInputChange('RAG', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
                         </Box>
                     </Flex>
                     <Flex width={155}>
@@ -96,7 +142,7 @@ const Details = ({ onDetailsChange }) => {
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Event Time :</Text>
                         <Box width={200}>
-                            <Input placeholder='Select Date and Time' size='sm' type='time' value={formData.eventTime} onChange={(e) => handleInputChange('eventTime', e.target.value)}/>
+                            <Input placeholder='Select Date and Time' size='sm' type='time' value={formData.event_time} onChange={(e) => handleInputChange('event_time', e.target.value)}/>
                         </Box>
                     </Flex>
                 </Flex>
@@ -118,7 +164,7 @@ const Details = ({ onDetailsChange }) => {
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>External Ref :</Text>
                         <Box >
-                            <Input placeholder='Select Date and Time' size='sm' type='text' value={formData.externalRef} onChange={(e) => handleInputChange('externalRef', e.target.value)}/>
+                            <Input placeholder='External Ref' size='sm' type='text' value={formData.externalRef} onChange={(e) => handleInputChange('externalRef', e.target.value)}/>
                         </Box>
                     </Flex>
                     <Flex width={155}>
@@ -134,13 +180,13 @@ const Details = ({ onDetailsChange }) => {
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Entity : <span style={{color:'red'}}>*</span></Text>
                                 <Box width={200}>
-                                    <Select placeholder="Select Entity" styles={customStyles} value={options.find(option => option.value === formData.entityAreaOfDetection)} onChange={(selectedOption) => handleInputChange('entityAreaOfDetection', selectedOption ? selectedOption.value : '')}/>
+                                    <Select options={entity} styles={customStyles} placeholder='Select Entity' value={entity.find(entity => entity.value === formData.entityOfDetection.value)} onChange={(selectedOption) => handleInputChange('entityOfDetection', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Sub Entity :</Text>
                                 <Box width={200}>
-                                    <Input placeholder='' size='sm' type='text' value={formData.subEntityAreaOfDetection} onChange={(e) => handleInputChange('subEntityAreaOfDetection', e.target.value)}/>
+                                    <Input placeholder='' size='sm' type='text' value={formData.subentityOfDetection} onChange={(e) => handleInputChange('subentityOfDetection', e.target.value)}/>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
@@ -159,13 +205,13 @@ const Details = ({ onDetailsChange }) => {
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Entity :</Text>
                                 <Box width={200}>
-                                    <Select placeholder="Select Entity" styles={customStyles} value={options.find(option => option.value === formData.entityAreaOfOrigin)} onChange={(selectedOption) => handleInputChange('entityAreaOfOrigin', selectedOption ? selectedOption.value : '')}/>
+                                    <Select options={entityOfOrigin} styles={customStyles} placeholder='Select Entity' value={entityOfOrigin.find(entityOfOrigin => entityOfOrigin.value === formData.entityOfOrigin.value)} onChange={(selectedOption) => handleInputChange('entityOfOrigin', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Sub Entity :</Text>
                                 <Box width={200}>
-                                    <Input placeholder='' size='sm' type='text' value={formData.subEntityAreaOfOrigin} onChange={(e) => handleInputChange('subEntityAreaOfOrigin', e.target.value)}/>
+                                    <Input placeholder='' size='sm' type='text' value={formData.subentityOfOrigin} onChange={(e) => handleInputChange('subentityOfOrigin', e.target.value)}/>
                                 </Box>
                             </Flex>
                         </Flex>
@@ -194,7 +240,7 @@ const Details = ({ onDetailsChange }) => {
                         <Flex gap={14} alignItems="center">
                             <Text fontSize={14}>Closed Date :</Text>
                             <Box width={200} marginLeft={3}>
-                                <Input placeholder='Select Date' size='sm' type='date' value={formData.closedDate} onChange={(e) => handleInputChange('closedDate', e.target.value)}/>
+                                <Input placeholder='Select Date' size='sm' type='date' value={formData.closed_date} onChange={(e) => handleInputChange('closed_date', e.target.value)}/>
                             </Box>
                         </Flex>
                         <Flex gap={6} alignItems="center">
@@ -238,7 +284,7 @@ const Details = ({ onDetailsChange }) => {
                     <Text fontWeight="bold" fontSize={14}>Documents<span style={{ fontStyle: 'italic' }}> (Importer vos documents dans l'espace ci-dessous)</span></Text>
                 </GridItem>
                 <Box mt={4}>
-                    <DocumentUploader onMediaUpload={(url) => handleInputChange('documents', [...formData.documents, url])}  />
+                    <DocumentUploader onMediaUpload={handleUploadLinks}  />
                 </Box>
             </Box>
         </Box>
