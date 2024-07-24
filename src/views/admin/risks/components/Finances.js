@@ -94,6 +94,7 @@ const Finances = ({ onFinancesChange }) => {
         Send Payload
       </Button> */}
     </Box>
+    
   );
 };
 
