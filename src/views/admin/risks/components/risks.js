@@ -92,7 +92,7 @@ function Risk() {
           </ModalBody>
 
           <ModalFooter>
-            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories}/>
+            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories} onClose={onClose}/>
             <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>

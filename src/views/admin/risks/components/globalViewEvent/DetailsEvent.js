@@ -43,6 +43,22 @@ const DetailsEvent = (
         }
     };
 
+    function getCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Les mois sont de 0 à 11
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        // Format YYYY-MM-DD
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    }
+
+    const currentDate = getCurrentDate();
+
+    const recordedName = localStorage.getItem('username');
+
     console.log('=======', detailsData)
 
     return (
@@ -76,11 +92,11 @@ const DetailsEvent = (
                 <Flex justifyContent='space-between' alignItems="center">
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Recorded by:</Text>
-                        <Text color='blue' fontSize={14}>Georges MOUMPOU</Text>
+                        <Text color='blue' fontSize={14}>{recordedName}</Text>
                     </Flex>
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>On:</Text>
-                        <Text color='blue' fontSize={14}>30/03/2023</Text>
+                        <Text color='blue' fontSize={14}>{currentDate}</Text>
                     </Flex>
                     <Flex width={155}>
                         <Checkbox size='sm' isChecked={detailsData.excludeFundLosses} readOnly>Exclude Fund Losses</Checkbox>
@@ -113,7 +129,7 @@ const DetailsEvent = (
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Sub Entity:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.subentityOfDetection.label}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.subentityOfDetection}</Text>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
@@ -199,7 +215,7 @@ const DetailsEvent = (
                         <Flex gap={6} alignItems="center">
                             <Text fontSize={14}>Review Date:</Text>
                             <Box width={200}>
-                                <Text color='blue' fontSize={14}>{detailsData.reviewerDate}</Text>
+                                <Text color='blue' fontSize={14}>{detailsData.reviewer_date}</Text>
                             </Box>
                         </Flex>
                     </Flex>

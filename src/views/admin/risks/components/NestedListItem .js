@@ -33,7 +33,7 @@ const MultiLevelList = ({ data, onItemClick }) => {
               mr={2}
             />
           )}
-          <Text ml={level * 4} fontSize={14} onClick={!hasSubCategories ? () => onItemClick(category) : undefined}>
+          <Text ml={level * 4} fontSize={14} onClick={!hasSubCategories ? () => onItemClick(category) : undefined} cursor='pointer'>
             {category}
           </Text>
         </Box>

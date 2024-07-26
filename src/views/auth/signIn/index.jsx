@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -18,7 +19,7 @@ import {
 import { PasswordField } from "./PasswordField";
 import { connect, useDispatch } from "react-redux";
 import { useState } from "react";
-import logo from 'assets/img/logoMakeda.png'; 
+import logo from "assets/img/logoMakeda.png";
 import { loginRequest } from "redux/login/action";
 
 const CameroonFlag = () => (
@@ -34,34 +35,34 @@ const CameroonFlag = () => (
 
 const SignIn = ({ error }) => {
   const dispatch = useDispatch();
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [phoneError, setPhoneError] = useState("");
+  const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const handleLogin = async () => {
-    setPhoneError("");
+    setEmailError("");
     setPasswordError("");
 
     // Vérifiez les champs manquants et mettez à jour les messages d'erreur
-    if (!phoneNumber) {
-      setPhoneError("Veuillez entrer votre numéro de téléphone.");
+    if (!email) {
+      setEmailError("Veuillez entrer une adresse mail valide.");
     }
 
     if (!password) {
-      setPasswordError("Veuillez entrer votre mot de passe.");
+      setPasswordError("Veuillez entrer un mot de passe valide.");
     }
 
     // Si des champs sont manquants, arrêtez la procédure de connexion
-    if (!phoneNumber || !password) {
+    if (!email || !password) {
       return;
     }
 
     setIsLoading(true);
 
     try {
-      dispatch(loginRequest(phoneNumber, password));
+      dispatch(loginRequest(email, password));
       // Simulez une attente (remplacez cela par votre logique de connexion réelle)
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
@@ -74,102 +75,52 @@ const SignIn = ({ error }) => {
   };
 
   return (
-    <Container
-      maxW="lg"
-      py={{
-        base: "12",
-        md: "2",
-      }}
-      px={{
-        base: "0",
-        sm: "8",
-      }}
-    >
-      <Stack spacing="8">
-        <Stack align="center" justifyContent='center'>
-          {/* <Image
-            src={logo}
-            width={{base:100, lg: 300}}
-            height={{base:100, lg: 200}}
-            objectFit='contain'
-          /> */}
-          <Stack
-            textAlign="center"
-          >
-            <Heading
-              size={{
-                base: "xs",
-                md: "sm",
-              }}
-            >
-              Connectez-vous à votre compte
-            </Heading>
-          </Stack>
-        </Stack>
-        <Box
-          py={{
-            base: "0",
-            sm: "8",
-          }}
-          px={{
-            base: "4",
-            sm: "10",
-          }}
-          bg={{
-            base: "transparent",
-            sm: "gray.100",
-          }}
-          boxShadow={{
-            base: "none",
-            sm: "md",
-          }}
-          borderRadius={{
-            base: "none",
-            sm: "xl",
-          }}
-        >
-          <Stack spacing="6">
-            <Stack spacing="5">
-              <FormControl isRequired>
-                <FormLabel htmlFor="phone-number">
-                  Numero de téléphone
-                </FormLabel>
-                <InputGroup>
-                  <InputLeftElement pointerEvents="none">
-                    <CameroonFlag phoneNumber={phoneNumber} />
-                  </InputLeftElement>
-                  <Input
-                    id="phone-number"
-                    type="number"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                  />
-                </InputGroup>
-                {phoneError && <p style={{ color: "red" }}>{phoneError}</p>}
-              </FormControl>
-              <PasswordField
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
-            </Stack>
-            <Stack spacing="6">
+    <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
+      <Flex p={8} flex={1} align={"center"} justify={"center"}>
+        <Stack spacing={4} w={"full"} maxW={"md"}>
+          <Heading fontSize={"2xl"}>Sign in to your account</Heading>
+          <FormControl id="email" isRequired>
+            <FormLabel htmlFor="email">Email address</FormLabel>
+            <Input
+              id="email"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            {emailError && <p style={{ color: "red" }}>{emailError}</p>}
+          </FormControl>
+          <PasswordField
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
+          <Box />
+          <Stack spacing={6}>
               <Button
-                bg="gray"
+                bg="blue.300"
                 color="white"
                 isLoading={isLoading}
+                disabled={!email || !password}
                 loadingText="Connexion"
                 spinnerPlacement="end"
-                _hover={{ bg: "gray.500", color: "white" }}
+                _hover={{ bg: "blue.500", color: "white" }}
                 onClick={handleLogin}
               >
                 Connexion
               </Button>
-            </Stack>
           </Stack>
-        </Box>
-      </Stack>
-    </Container>
+        </Stack>
+      </Flex>
+      <Flex flex={1}>
+        <Image
+          alt={"Login Image"}
+          objectFit={"cover"}
+          src={
+            "https://www.easyproject.com/EasyProject/media/site-images/news/5-mistakes-risk-management.png?width=1920&height=0&rmode=min&quality=80&token=ZzQQBwMD7TwgChHP0D%2F62UiPyHq2aq90tcqewnAgWpI%3D"
+          }
+        />
+      </Flex>
+    </Stack>
   );
 };
 

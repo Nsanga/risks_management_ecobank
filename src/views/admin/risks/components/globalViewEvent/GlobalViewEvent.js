@@ -23,8 +23,8 @@ import AdditionalInfoEvent from './AdditionalInfoEvent'
 import { AddEvent } from 'redux/events/action'
 import { connect, useDispatch } from 'react-redux'
 
-const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additionalData, categories, loading }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additionalData, categories, loading, onClose }) => {
+    const { isOpen, onOpen } = useDisclosure()
 
     const dispatch = useDispatch();
 
@@ -65,7 +65,7 @@ const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additional
 
         try {
             // Affichage du payload dans la console
-            console.log('Payload:', payload);
+            // console.log('Payload:', payload);
             await dispatch(AddEvent(payload));
             onClose(); // Ferme la modal après la soumission réussie
         } catch (error) {
@@ -77,7 +77,11 @@ const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additional
 
     return (
         <>
-            <Button disabled={!detailsData.owner || !detailsData.nominee} onClick={onOpen} colorScheme="blue" mr={2}>Save</Button>
+            <Button
+                disabled={!detailsData.owner || !detailsData.nominee || !detailsData.entityOfOrigin}
+                onClick={onOpen} colorScheme="blue" mr={2}>
+                Save
+            </Button>
 
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} scrollBehavior="inside" size='5xl'>
                 <ModalOverlay />
@@ -125,6 +129,6 @@ const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additional
 const mapStateToProps = ({ EventReducer }) => ({
     events: EventReducer.events,
     loading: EventReducer.loading,
-  });
-  
-  export default connect(mapStateToProps)(GlobalViewEvent);
+});
+
+export default connect(mapStateToProps)(GlobalViewEvent);

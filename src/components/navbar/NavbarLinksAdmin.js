@@ -111,7 +111,7 @@ export default function HeaderLinks(props) {
 							fontSize="sm"
 							fontWeight="700"
 							color={textColor}>
-							👋&nbsp; Hey, {adminName}
+							👋&nbsp; Salut, {adminName}
 						</Text>
 					</Flex>
 					<Flex flexDirection="column" p="10px">

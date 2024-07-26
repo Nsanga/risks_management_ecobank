@@ -20,22 +20,24 @@ const Details = ({ onDetailsChange }) => {
         event_time: '',
         excludeFundLosses: false,
         externalEvent: false,
+        recorded_by: '',
+        recorded_date: '',
         externalRef: '',
         notify: false,
         entityOfDetection: '',
         subentityOfDetection: '',
-        detectionDate: '',
+        detection_date: '',
         entityOfOrigin: '',
         subentityOfOrigin: '',
         description: '',
         descriptionDetailled: '',
-        approvedDate: '',
+        approved_date: '',
         closed_date: '',
         targetClosureDate: '',
         owner: { value: '', label: '' },
         nominee: { value: '', label: '' },
         reviewer: '',
-        reviewerDate: '',
+        reviewer_date: '',
         documents: []
     });
 
@@ -114,6 +116,22 @@ const Details = ({ onDetailsChange }) => {
         });
     };
 
+    const recordedName = localStorage.getItem('username');
+
+    function getCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Les mois sont de 0 à 11
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        // Format YYYY-MM-DD
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    }
+
+    const currentDate = getCurrentDate();
+
     const handleSubmit = () => {
         console.log('Payload:', formData);
     };
@@ -149,11 +167,11 @@ const Details = ({ onDetailsChange }) => {
                 <Flex justifyContent='space-between' alignItems="center">
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Recorded by :</Text>
-                        <Text color='blue' fontSize={14}>Georges MOUMPOU</Text>
+                        <Text color='blue' fontSize={14}>{recordedName}</Text>
                     </Flex>
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>On :</Text>
-                        <Text color='blue' fontSize={14}>30/03/2023</Text>
+                        <Text color='blue' fontSize={14}>{currentDate}</Text>
                     </Flex>
                     <Flex width={155}>
                         <Checkbox size='sm' isChecked={formData.excludeFundLosses} onChange={(e) => handleInputChange('excludeFundLosses', e.target.checked)}>Exclude Fund Losses</Checkbox>
@@ -192,7 +210,7 @@ const Details = ({ onDetailsChange }) => {
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Detection Date :</Text>
                                 <Box width={200}>
-                                    <Input placeholder='Select Date' size='sm' type='date' value={formData.detectionDate} onChange={(e) => handleInputChange('detectionDate', e.target.value)}/>
+                                    <Input placeholder='Select Date' size='sm' type='date' value={formData.detection_date} onChange={(e) => handleInputChange('detection_date', e.target.value)}/>
                                 </Box>
                             </Flex>
                         </Flex>
@@ -234,7 +252,7 @@ const Details = ({ onDetailsChange }) => {
                         <Flex gap={20} alignItems="center">
                             <Text fontSize={14}>Approved  :</Text>
                             <Box width={200} >
-                                <Input placeholder='Select Date' size='sm' type='date' value={formData.approvedDate} onChange={(e) => handleInputChange('approvedDate', e.target.value)}/>
+                                <Input placeholder='Select Date' size='sm' type='date' value={formData.approved_date} onChange={(e) => handleInputChange('approved_date', e.target.value)}/>
                             </Box>
                         </Flex>
                         <Flex gap={14} alignItems="center">
@@ -272,7 +290,7 @@ const Details = ({ onDetailsChange }) => {
                         <Flex gap={6} alignItems="center">
                             <Text fontSize={14}>Review Date :</Text>
                             <Box width={200}>
-                                <Input placeholder='Select Date' size='sm' type='date' value={formData.reviewerDate} onChange={(e) => handleInputChange('reviewerDate', e.target.value)}/>
+                                <Input placeholder='Select Date' size='sm' type='date' value={formData.reviewer_date} onChange={(e) => handleInputChange('reviewer_date', e.target.value)}/>
                             </Box>
                         </Flex>
                     </Flex>
