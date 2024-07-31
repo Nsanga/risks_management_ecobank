@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, Input, Box, Flex, Select, Text } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Td, Input, Box, Flex, Select, Text, TableCaption } from '@chakra-ui/react';
 
 const Finances = ({ onFinancesChange }) => {
   const initialData = [
@@ -93,39 +93,60 @@ const Finances = ({ onFinancesChange }) => {
           </Select>
         </Box>
       </Flex>
-      <Table variant="simple">
-        <Thead>
-          <Tr>
-            <Th textAlign="start"></Th>
-            <Th textAlign="start" fontSize={12}>Total</Th>
-            <Th textAlign="start" fontSize={12}>Direct</Th>
-            <Th textAlign="start" fontSize={12}>Regulatory fines</Th>
-            <Th textAlign="start" fontSize={12}>Asset write-down</Th>
-            <Th textAlign="start" fontSize={12}>Other</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {tableData.map(row => (
-            <Tr key={row.id}>
-              <Td fontSize={14} width='15%'>{row.name}</Td>
-              {row.values.map((value, index) => (
-                <Td key={index}>
-                  <Input
-                    value={value}
-                    onChange={e => handleInputChange(row.id, index, e.target.value)}
-                    isReadOnly={row.name === 'Total'} // Make the "Total" row read-only
-                  />
-                </Td>
-              ))}
+      <Flex gap={16}>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th textAlign="start"></Th>
+              <Th textAlign="start" fontSize={12}>Total</Th>
+              <Th textAlign="start" fontSize={12}>Direct</Th>
+              <Th textAlign="start" fontSize={12}>Regulatory fines</Th>
+              <Th textAlign="start" fontSize={12}>Asset write-down</Th>
+              <Th textAlign="start" fontSize={12}>Other</Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
+          </Thead>
+          <Tbody>
+            {tableData.map(row => (
+              <Tr key={row.id}>
+                <Td fontSize={14} width='15%'>{row.name}</Td>
+                {row.values.map((value, index) => (
+                  <Td key={index}>
+                    <Input
+                      value={value}
+                      onChange={e => handleInputChange(row.id, index, e.target.value)}
+                      isReadOnly={row.name === 'Total'} // Make the "Total" row read-only
+                    />
+                  </Td>
+                ))}
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+        <Box maxW="300px">
+            <Table variant="simple" >
+                <TableCaption placement="top" fontSize={14}>DAILY RATE</TableCaption>
+                <Tbody>
+                    <Tr>
+                        <Td maxW="150px" >EUR/USD</Td>
+                        <Td maxW="150px" >1.208</Td>
+                    </Tr>
+                    <Tr>
+                        <Td maxW="150px" >USD/XAF</Td>
+                        <Td maxW="150px" >625</Td>
+                    </Tr>
+                    <Tr>
+                        <Td maxW="150px" >EUR/XAF</Td>
+                        <Td maxW="150px" >655</Td>
+                    </Tr>
+                </Tbody>
+            </Table>
+        </Box>
+      </Flex>
       {/* <Button mt={4} colorScheme="blue" onClick={handleButtonClick}>
         Send Payload
       </Button> */}
     </Box>
-    
+
   );
 };
 
