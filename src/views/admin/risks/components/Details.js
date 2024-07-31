@@ -138,6 +138,18 @@ const Details = ({ onDetailsChange }) => {
 
     return (
         <Box>
+            <Box pt={5} pb={5}>
+                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                        Description <span style={{color:'red'}}>*</span>
+                    </Box>
+                    <Input placeholder='Event description' size='sm' value={formData.description} onChange={(e) => handleInputChange('description', e.target.value)}/>
+                </Box>
+                <Box p={5} shadow='md' borderWidth='1px' mb={6}>
+                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                        Detailed Description
+                    </Box>
+                    <Textarea placeholder='Description détaillée' size='sm' value={formData.descriptionDetailled} onChange={(e) => handleInputChange('descriptionDetailled', e.target.value)}/>
+                </Box>
             <Flex flexDirection='column' gap={4}>
                 <Flex justifyContent='space-between' alignItems="center">
                     <Flex gap={6} alignItems="center">
@@ -235,18 +247,6 @@ const Details = ({ onDetailsChange }) => {
                         </Flex>
                     </Box>
                 </Flex>
-                <Box pt={5} pb={5}>
-                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
-                        Description <span style={{color:'red'}}>*</span>
-                    </Box>
-                    <Input placeholder='Event description' size='sm' value={formData.description} onChange={(e) => handleInputChange('description', e.target.value)}/>
-                </Box>
-                <Box p={5} shadow='md' borderWidth='1px'>
-                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
-                        Detailed Description
-                    </Box>
-                    <Textarea placeholder='Description détaillée' size='sm' value={formData.descriptionDetailled} onChange={(e) => handleInputChange('descriptionDetailled', e.target.value)}/>
-                </Box>
                 <Flex justifyContent='space-between' pt={5}>
                     <Flex flexDirection='column' gap={2}>
                         <Flex gap={20} alignItems="center">

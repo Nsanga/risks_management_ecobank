@@ -128,7 +128,7 @@ const Finances = ({ onFinancesChange }) => {
                 <Tbody>
                     <Tr>
                         <Td maxW="150px" >EUR/USD</Td>
-                        <Td maxW="150px" >1.208</Td>
+                        <Td maxW="150px" >1,208</Td>
                     </Tr>
                     <Tr>
                         <Td maxW="150px" >USD/XAF</Td>
@@ -136,7 +136,7 @@ const Finances = ({ onFinancesChange }) => {
                     </Tr>
                     <Tr>
                         <Td maxW="150px" >EUR/XAF</Td>
-                        <Td maxW="150px" >655</Td>
+                        <Td maxW="150px" >655,957</Td>
                     </Tr>
                 </Tbody>
             </Table>
