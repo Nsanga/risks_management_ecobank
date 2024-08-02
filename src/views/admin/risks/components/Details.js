@@ -13,11 +13,37 @@ const Details = ({ onDetailsChange }) => {
     const [entity, setEntity] = useState([]);
     const [entityOfOrigin, setEntityOfOrigin] = useState([]);
     const [rag, setRag] = useState([]);
+
+    function getCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Les mois sont de 0 à 11
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        // Format YYYY-MM-DD
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    }
+
+    function getCurrentTime() {
+        const currentDate = new Date();
+        const hours = String(currentDate.getHours()).padStart(2, '0');
+        const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+    
+        // Format HH:MM
+        const formattedTime = `${hours}:${minutes}`;
+    
+        return formattedTime;
+      }
+
+    const currentDate = getCurrentDate();
+
     const [formData, setFormData] = useState({
         event_date: '',
         RAG: '',
         activeEvent: false,
-        event_time: '',
+        event_time: getCurrentTime(),
         excludeFundLosses: false,
         externalEvent: false,
         recorded_by: '',
@@ -40,6 +66,17 @@ const Details = ({ onDetailsChange }) => {
         reviewer_date: '',
         documents: []
     });
+
+    useEffect(() => {
+        const currentDate = getCurrentDate();
+        const currentTime = getCurrentTime();
+        setFormData(prevState => ({
+          ...prevState,
+          event_date: currentDate,
+          event_time: currentTime
+        }));
+        onDetailsChange({ event_date: currentDate, event_time: currentTime });
+      }, []);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -118,20 +155,6 @@ const Details = ({ onDetailsChange }) => {
 
     const recordedName = localStorage.getItem('username');
 
-    function getCurrentDate() {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Les mois sont de 0 à 11
-        const day = String(currentDate.getDate()).padStart(2, '0');
-
-        // Format YYYY-MM-DD
-        const formattedDate = `${day}/${month}/${year}`;
-
-        return formattedDate;
-    }
-
-    const currentDate = getCurrentDate();
-
     const handleSubmit = () => {
         console.log('Payload:', formData);
     };
@@ -155,7 +178,7 @@ const Details = ({ onDetailsChange }) => {
                     <Flex gap={6} alignItems="center">
                         <Text fontSize={14}>Event Date :</Text>
                         <Box width={200}>
-                            <Input placeholder='Select Date' size='sm' type='date' value={formData.event_date} onChange={(e) => handleInputChange('event_date', e.target.value)} />
+                            <Input placeholder='Select Date' size='sm' type='texte' value={formData.event_date} isReadOnly />
                         </Box>
                     </Flex>
                     <Flex gap={5} alignItems="center">
@@ -172,7 +195,7 @@ const Details = ({ onDetailsChange }) => {
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Event Time :</Text>
                         <Box width={200}>
-                            <Input placeholder='Select Date and Time' size='sm' type='time' value={formData.event_time} onChange={(e) => handleInputChange('event_time', e.target.value)}/>
+                            <Input placeholder='Select Date and Time' size='sm' type='text' value={formData.event_time} readOnly/>
                         </Box>
                     </Flex>
                 </Flex>
@@ -233,7 +256,7 @@ const Details = ({ onDetailsChange }) => {
                         </Box>
                         <Flex flexDirection='column' gap={4}>
                             <Flex justifyContent='space-between' alignItems="center">
-                                <Text fontSize={14}>Entity :</Text>
+                                <Text fontSize={14}>Entity : <span style={{color:'red'}}>*</span></Text>
                                 <Box width={200}>
                                     <Select options={entityOfOrigin} styles={customStyles} placeholder='Select Entity' value={entityOfOrigin.find(entityOfOrigin => entityOfOrigin.value === formData.entityOfOrigin.value)} onChange={(selectedOption) => handleInputChange('entityOfOrigin', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
                                 </Box>

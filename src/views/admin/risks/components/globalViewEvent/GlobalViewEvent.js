@@ -23,8 +23,8 @@ import AdditionalInfoEvent from './AdditionalInfoEvent'
 import { AddEvent } from 'redux/events/action'
 import { connect, useDispatch } from 'react-redux'
 
-const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additionalData, categories, loading, onClose }) => {
-    const { isOpen, onOpen } = useDisclosure()
+const GlobalViewEvent = ({ detailsData, commentaryData, financesData, additionalData, categories, loading }) => {
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const dispatch = useDispatch();
 

@@ -82,7 +82,7 @@ function AddEventForm() {
                   <Commentary onCommentaryChange={handleCommentaryChange} />
                 </TabPanel>
                 <TabPanel>
-                  <Finances onFinancesChange={handleFinancesChange}/>
+                  <Finances onFinancesChange={handleFinancesChange} financesData={financesData}/>
                 </TabPanel>
                 <TabPanel>
                   <Additional onAdditionalChange={handleAdditionalChange}/>
@@ -92,7 +92,7 @@ function AddEventForm() {
           </ModalBody>
 
           <ModalFooter>
-            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories} onClose={onClose}/>
+            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories}/>
             <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
