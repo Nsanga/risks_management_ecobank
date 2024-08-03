@@ -1,6 +1,6 @@
 import { Flex, Input, Text, Textarea, Box, Checkbox, Grid, GridItem, Button } from '@chakra-ui/react';
 import Select from 'react-select';
-import { FaFilePdf, FaFileWord, FaFileAlt, FaFileImage } from 'react-icons/fa';
+import { FaFilePdf, FaFileWord, FaFileAlt, FaFileImage, FaFile } from 'react-icons/fa';
 import React from 'react';
 
 const DetailsEvent = (
@@ -9,6 +9,58 @@ const DetailsEvent = (
     }
 ) => {
 
+    const renderDocumentPreview = (document) => {
+        const isImage = document.match(/\.(jpeg|jpg|gif|png)$/i);
+        const isVideo = document.match(/\.(mp4|webm|ogg)$/i);
+        const isPDF = document.match(/\.pdf$/i);
+
+        if (isImage) {
+            return <img src={document} alt="Aperçu du document" style={{ maxWidth: '100px', maxHeight: '100px' }} />;
+        } else if (isVideo) {
+            return (
+                <video width="100" height="100" controls>
+                    <source src={document} type="video/mp4" />
+                    <source src={document} type="video/webm" />
+                    <source src={document} type="video/ogg" />
+                    Votre navigateur ne supporte pas la balise vidéo.
+                </video>
+            );
+        } else if (isPDF) {
+            return (
+                <iframe
+                    src={document}
+                    title="Aperçu du document PDF"
+                    style={{ width: '100px', height: '100px' }}
+                />
+            );
+        } else {
+            return (
+                <Box display="flex" flexDirection="column" alignItems="center">
+                    <FaFile size={50} style={{ marginBottom: '10px' }} />
+                    <Box>{document.split('/').pop()}</Box>
+                </Box>
+            );
+        }
+    };
+
+    function getCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Les mois sont de 0 à 11
+        const day = String(currentDate.getDate()).padStart(2, '0');
+
+        // Format YYYY-MM-DD
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    }
+
+    const currentDate = getCurrentDate();
+
+    const recordedName = localStorage.getItem('username');
+
+    console.log('=======', detailsData)
+
     return (
         <Box>
             <Flex flexDirection='column' gap={4}>
@@ -16,7 +68,7 @@ const DetailsEvent = (
                     <Flex gap={6} alignItems="center">
                         <Text fontSize={14}>Event Date:</Text>
                         <Box width={200}>
-                            <Text color='blue' fontSize={14}>{detailsData.eventDate}</Text>
+                            <Text color='blue' fontSize={14}>{detailsData.event_date}</Text>
                         </Box>
                     </Flex>
                     <Flex gap={5} alignItems="center">
@@ -33,18 +85,18 @@ const DetailsEvent = (
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Event Time:</Text>
                         <Box width={200}>
-                            <Text color='blue' fontSize={14}>{detailsData.eventTime}</Text>
+                            <Text color='blue' fontSize={14}>{detailsData.event_time}</Text>
                         </Box>
                     </Flex>
                 </Flex>
                 <Flex justifyContent='space-between' alignItems="center">
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Recorded by:</Text>
-                        <Text color='blue' fontSize={14}>Georges MOUMPOU</Text>
+                        <Text color='blue' fontSize={14}>{recordedName}</Text>
                     </Flex>
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>On:</Text>
-                        <Text color='blue' fontSize={14}>30/03/2023</Text>
+                        <Text color='blue' fontSize={14}>{currentDate}</Text>
                     </Flex>
                     <Flex width={155}>
                         <Checkbox size='sm' isChecked={detailsData.excludeFundLosses} readOnly>Exclude Fund Losses</Checkbox>
@@ -71,19 +123,19 @@ const DetailsEvent = (
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Entity:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.entityAreaOfDetection.label}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.entityOfDetection.label}</Text>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Sub Entity:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.subEntityAreaOfDetection.label}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.subentityOfDetection}</Text>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Detection Date:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.detectionDate}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.detection_date}</Text>
                                 </Box>
                             </Flex>
                         </Flex>
@@ -96,13 +148,13 @@ const DetailsEvent = (
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Entity:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.entityAreaOfOrigin}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.entityOfOrigin.label}</Text>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Sub Entity:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.subEntityAreaOfOrigin}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.subentityOfOrigin}</Text>
                                 </Box>
                             </Flex>
                         </Flex>
@@ -125,13 +177,13 @@ const DetailsEvent = (
                         <Flex gap={12} alignItems="center">
                             <Text fontSize={14}>Approved Date:</Text>
                             <Box width={200} marginLeft={1}>
-                                <Text color='blue' fontSize={14}>{detailsData.approvedDate}</Text>
+                                <Text color='blue' fontSize={14}>{detailsData.approved_date}</Text>
                             </Box>
                         </Flex>
                         <Flex gap={14} alignItems="center">
                             <Text fontSize={14}>Closed Date:</Text>
                             <Box width={200} marginLeft={3}>
-                                <Text color='blue' fontSize={14}>{detailsData.closedDate}</Text>
+                                <Text color='blue' fontSize={14}>{detailsData.closed_date}</Text>
                             </Box>
                         </Flex>
                         <Flex gap={6} alignItems="center">
@@ -163,7 +215,7 @@ const DetailsEvent = (
                         <Flex gap={6} alignItems="center">
                             <Text fontSize={14}>Review Date:</Text>
                             <Box width={200}>
-                                <Text color='blue' fontSize={14}>{detailsData.reviewerDate}</Text>
+                                <Text color='blue' fontSize={14}>{detailsData.reviewer_date}</Text>
                             </Box>
                         </Flex>
                     </Flex>
@@ -175,7 +227,19 @@ const DetailsEvent = (
                     <Text fontWeight="bold" fontSize={14}>Document(s) importée(s) :</Text>
                 </GridItem>
                 <Box mt={4}>
-                    <Flex justifyContent='center' gap={2}>{detailsData.documents}</Flex>
+                    <Flex justifyContent='center' gap={2}>
+                        {detailsData.documents && detailsData.documents.length > 0 ? (
+                            detailsData.documents.map((document, index) => (
+                                <Box key={index} p={2} borderWidth="1px" borderRadius="md">
+                                    <a href={document} target="_blank" rel="noopener noreferrer">
+                                        {renderDocumentPreview(document)}
+                                    </a>
+                                </Box>
+                            ))
+                        ) : (
+                            <Text>Aucun document téléchargé.</Text>
+                        )}
+                    </Flex>
                 </Box>
             </Box>
         </Box>

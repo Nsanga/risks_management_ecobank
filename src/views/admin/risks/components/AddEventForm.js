@@ -25,7 +25,7 @@ import GlobalViewEvent from "./globalViewEvent/GlobalViewEvent";
 import { useState } from "react";
 import data from "../Data";
 
-function Risk() {
+function AddEventForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [detailsData, setDetailsData] = useState({});
   const [commentaryData, setCommentaryData] = useState({});
@@ -82,7 +82,7 @@ function Risk() {
                   <Commentary onCommentaryChange={handleCommentaryChange} />
                 </TabPanel>
                 <TabPanel>
-                  <Finances onFinancesChange={handleFinancesChange}/>
+                  <Finances onFinancesChange={handleFinancesChange} financesData={financesData}/>
                 </TabPanel>
                 <TabPanel>
                   <Additional onAdditionalChange={handleAdditionalChange}/>
@@ -101,4 +101,4 @@ function Risk() {
   );
 }
 
-export default Risk;
+export default AddEventForm;

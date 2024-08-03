@@ -13,6 +13,8 @@ const DocumentUploader = ({ onMediaUpload }) => {
 
     const onDrop = useCallback(acceptedFiles => {
         setError(null);
+        const newMediaData = [];
+
         acceptedFiles.forEach(file => {
             if (file.size > 20 * 1024 * 1024) {
                 setError('La taille du fichier dépasse la limite de 20 Mo.');
@@ -25,28 +27,42 @@ const DocumentUploader = ({ onMediaUpload }) => {
             reader.onerror = () => console.log('file reading has failed');
             reader.onload = () => {
                 const binaryStr = reader.result;
-                setMediaData(prevState => [...prevState, { dataURL: binaryStr, file }]);
-                uploadToCloudinary(file);
+                newMediaData.push({ dataURL: binaryStr, file });
+                setMediaData(prevState => [...prevState, ...newMediaData]);
             };
             reader.readAsDataURL(file);
         });
+
+        // Après la lecture des fichiers, initier le téléchargement
+        if (acceptedFiles.length > 0) {
+            uploadToCloudinary(acceptedFiles);
+        }
     }, []);
 
-    const uploadToCloudinary = async (file) => {
+    const uploadToCloudinary = async (files) => {
         setIsLoading(true);
         const formData = new FormData();
-        formData.append('file', file);
+        files.forEach(file => formData.append('files', file)); // Ajouter tous les fichiers
+
         formData.append('upload_preset', 'your_upload_preset');
+
         try {
-            const response = await fetch(`${url}/api/v1/upload/file?fileName=${file.name}_admin`, {
+            const response = await fetch(`${url}/api/v1/upload/files`, {
                 method: 'POST',
                 body: formData
             });
             const data = await response.json();
-            console.log('Cloudinary upload response:', data);
-            onMediaUpload(data.data.downloadLink);
+            console.log('Réponse de l\'upload Cloudinary:', data);
+
+            // Vérifier si data.data.downloadLinks est un tableau avant de l'utiliser
+            if (Array.isArray(data.data.downloadLinks)) {
+                onMediaUpload(data.data.downloadLinks);
+            } else {
+                console.error('Les liens de téléchargement ne sont pas un tableau:', data.data.downloadLinks);
+            }
         } catch (error) {
-            console.error('Error uploading file:', error);
+            console.error('Erreur lors du téléchargement des fichiers:', error);
+            setError('Erreur lors du téléchargement des fichiers.');
         } finally {
             setIsLoading(false);
         }
@@ -71,7 +87,7 @@ const DocumentUploader = ({ onMediaUpload }) => {
                     {mediaData.map((media, index) => (
                         <Box key={index} display="flex" justifyContent="space-between" alignItems="center" mb={4}>
                             {media.file.type.startsWith('image') ? (
-                                <img src={media.dataURL} alt="Media Preview" style={{ maxWidth: '50%', maxHeight: '100px' }} />
+                                <img src={media.dataURL} alt="Aperçu du média" style={{ maxWidth: '50%', maxHeight: '100px' }} />
                             ) : media.file.type.startsWith('video') ? (
                                 <Box display="flex" flexDirection='column' justifyContent='center' alignItems="center">
                                     <FaFileVideo size={50} style={{ marginRight: '10px' }} />
@@ -85,7 +101,7 @@ const DocumentUploader = ({ onMediaUpload }) => {
                             )}
                             <IconButton
                                 icon={<CloseIcon />}
-                                aria-label="Supprimer l'image"
+                                aria-label="Supprimer le fichier"
                                 onClick={() => handleRemoveMedia(media.file)}
                                 variant="ghost"
                                 size="sm"
