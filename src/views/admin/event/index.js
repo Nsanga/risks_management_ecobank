@@ -11,24 +11,49 @@ import {
     Button,
     useDisclosure,
     Icon,
+    Text,
+    Flex,
+    Image,
 } from '@chakra-ui/react'
 import Head from './components/Head'
 import { MdInsertDriveFile } from 'react-icons/md'
+import { useLocation } from 'react-router-dom';
 import LossesEntities from './components/LossesEntities'
+import Loader from '../../../assets/img/loader.gif'
 
 const Event = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const location = useLocation();
+    const event = location.state?.event;
+    const loading = location.state?.loading;
+    console.log('evttttt:::', event)
+
+    if (!event) {
+        return <Text>Cet évènement n'existe pas.</Text>;
+    }
+
     return (
         <Card mt="100px">
-            <Head
-                eventRef='EVT17010'
-                currentState='Approved'
-                currentLocks={<Icon as={MdInsertDriveFile} boxSize={6}/>}
-                description="Restitution des fonds suite à une fraude par les transactions en ligne sur le compte d'un client du Commercial Bank." 
-                totalLosses='1,727.15'
-                externalRef 
-            />
-            <LossesEntities />
+            {
+                loading ? (
+                    <Flex alignItems='center' justifyContent='center'>
+                        <Image src={Loader} alt="Loading..." height={50} width={50} />
+                    </Flex>
+                ) : (
+                    <>
+                        <Head
+                            eventRef={`EVT${event.num_ref}`}
+                            currentState={event.approved === true ? 'Approved' : 'Unapproved'}
+                            currentLocks={<Icon as={MdInsertDriveFile} boxSize={6} />}
+                            description={event.details.description}
+                            totalLosses='1,727.15'
+                            externalRef
+                        />
+                        <LossesEntities event={event} />
+                    </>
+                )
+            }
         </Card>
     )
 }

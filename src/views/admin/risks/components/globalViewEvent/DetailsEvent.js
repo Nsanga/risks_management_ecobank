@@ -74,7 +74,7 @@ const DetailsEvent = (
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>RAG:</Text>
                         <Box width={200}>
-                            <Text color='blue' fontSize={14}>{detailsData.RAG.label}</Text>
+                            <Text color='blue' fontSize={14}>{detailsData.RAG}</Text>
                         </Box>
                     </Flex>
                     <Flex width={155}>
@@ -123,7 +123,7 @@ const DetailsEvent = (
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Entity:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.entityOfDetection.label}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.entityOfDetection}</Text>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
@@ -148,7 +148,7 @@ const DetailsEvent = (
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Entity:</Text>
                                 <Box width={200}>
-                                    <Text color='blue' fontSize={14}>{detailsData.entityOfOrigin.label}</Text>
+                                    <Text color='blue' fontSize={14}>{detailsData.entityOfOrigin}</Text>
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
@@ -197,13 +197,13 @@ const DetailsEvent = (
                         <Flex gap={14} alignItems="center">
                             <Text fontSize={14}>Owner:</Text>
                             <Box width={200} marginLeft={1}>
-                                <Text color='blue' fontSize={14}>{detailsData.owner.label}</Text>
+                                <Text color='blue' fontSize={14}>{detailsData.owner}</Text>
                             </Box>
                         </Flex>
                         <Flex gap={10} alignItems="center">
                             <Text fontSize={14}>Nominee:</Text>
                             <Box width={200} marginLeft={1}>
-                                <Text color='blue' fontSize={14}>{detailsData.nominee.label}</Text>
+                                <Text color='blue' fontSize={14}>{detailsData.nominee}</Text>
                             </Box>
                         </Flex>
                         <Flex gap={10} alignItems="center">

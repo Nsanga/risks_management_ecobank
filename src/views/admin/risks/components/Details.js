@@ -7,10 +7,11 @@ import Profiles from '../profiles';
 import Entity from '../entity';
 import RAG from '../RAG';
 import entityAreaOfOrigin from '../entityOfOrigin';
+import moment from 'moment';
 
-const Details = ({ onDetailsChange }) => {
+const Details = ({ eventDetails, onDetailsChange }) => {
     const [options, setOptions] = useState([]);
-    const [entity, setEntity] = useState([]);
+    const [entityofdetection, setEntityofdetection] = useState([]);
     const [entityOfOrigin, setEntityOfOrigin] = useState([]);
     const [rag, setRag] = useState([]);
 
@@ -20,7 +21,7 @@ const Details = ({ onDetailsChange }) => {
         const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Les mois sont de 0 à 11
         const day = String(currentDate.getDate()).padStart(2, '0');
 
-        // Format YYYY-MM-DD
+        // Format 
         const formattedDate = `${day}/${month}/${year}`;
 
         return formattedDate;
@@ -30,14 +31,13 @@ const Details = ({ onDetailsChange }) => {
         const currentDate = new Date();
         const hours = String(currentDate.getHours()).padStart(2, '0');
         const minutes = String(currentDate.getMinutes()).padStart(2, '0');
-    
+
         // Format HH:MM
         const formattedTime = `${hours}:${minutes}`;
-    
-        return formattedTime;
-      }
 
-    const currentDate = getCurrentDate();
+        return formattedTime;
+    }
+    // console.log('>>>>>>>>>>>>>>', eventDetails.details.RAG)
 
     const [formData, setFormData] = useState({
         event_date: '',
@@ -60,62 +60,83 @@ const Details = ({ onDetailsChange }) => {
         approved_date: '',
         closed_date: '',
         targetClosureDate: '',
-        owner: { value: '', label: '' },
-        nominee: { value: '', label: '' },
+        owner: '',
+        nominee: '',
         reviewer: '',
         reviewer_date: '',
-        documents: []
+        documents: [],
     });
-
-    useEffect(() => {
-        const currentDate = getCurrentDate();
-        const currentTime = getCurrentTime();
-        setFormData(prevState => ({
-          ...prevState,
-          event_date: currentDate,
-          event_time: currentTime
-        }));
-        onDetailsChange({ event_date: currentDate, event_time: currentTime });
-      }, []);
 
     useEffect(() => {
         const loadOptions = async () => {
             const formattedOptions = Profiles.map(user => ({
-                value: user.id,
-                label: `${user.email}`
+                value: user.email,
+                label: user.name
             }));
             setOptions(formattedOptions);
         };
 
-        const loadEntity = async () => {
-            const formattedEntities = Entity.map(entity => ({
-                value: entity.id,
-                label: `${entity.name}`
+        const loadEntityOfDetection = async () => {
+            const formattedEntities = Entity.map(entityofdetection => ({
+                value: entityofdetection.name,
+                label: entityofdetection.name
             }));
-            setEntity(formattedEntities);
+            setEntityofdetection(formattedEntities);
         };
 
         const loadEntityOfOrigin = async () => {
-            const formattedEntityOfOrigin = entityAreaOfOrigin.map(entity => ({
-                value: entity.id,
-                label: `${entity.name}`
+            const formattedEntityOfOrigin = entityAreaOfOrigin.map(entityoforigin => ({
+                value: entityoforigin.name,
+                label: entityoforigin.name
             }));
             setEntityOfOrigin(formattedEntityOfOrigin);
         };
 
         const loadRag = async () => {
             const formattedRag = RAG.map(rag => ({
-                value: rag.id,
-                label: `${rag.name}`
+                value: rag.name,
+                label: rag.name
             }));
             setRag(formattedRag);
         };
 
         loadOptions();
-        loadEntity();
+        loadEntityOfDetection();
         loadEntityOfOrigin();
         loadRag();
     }, []);
+
+    useEffect(() => {
+        if (eventDetails) {
+            setFormData({
+                event_date: eventDetails.details.event_date || getCurrentDate(),
+                RAG: eventDetails.details.RAG || '',
+                activeEvent: eventDetails.details.activeEvent || false,
+                event_time: eventDetails.details.event_time || getCurrentTime(),
+                excludeFundLosses: eventDetails.details.excludeFundLosses || false,
+                externalEvent: eventDetails.details.externalEvent || false,
+                recorded_by: eventDetails.details.recorded_by || '',
+                recorded_date: eventDetails.details.recorded_date || '',
+                externalRef: eventDetails.details.externalRef || '',
+                notify: eventDetails.details.notify || false,
+                entityOfDetection: eventDetails.details.entityOfDetection || '',
+                subentityOfDetection: eventDetails.details.subentityOfDetection || '',
+                detection_date: eventDetails.details.detection_date || '',
+                entityOfOrigin: eventDetails.details.entityOfOrigin || '',
+                subentityOfOrigin: eventDetails.details.subentityOfOrigin || '',
+                description: eventDetails.details.description || '',
+                descriptionDetailled: eventDetails.details.descriptionDetailled || '',
+                approved_date: eventDetails.details.approved_date || '',
+                closed_date: eventDetails.details.closed_date || '',
+                targetClosureDate: eventDetails.details.targetClosureDate || '',
+                owner: eventDetails.details.owner || '',
+                nominee: eventDetails.details.nominee || '',
+                reviewer: eventDetails.details.reviewer || '',
+                reviewer_date: eventDetails.details.reviewer_date || '',
+                documents: [],
+            });
+        }
+    }, [eventDetails]);
 
     const customStyles = {
         control: (provided) => ({
@@ -162,29 +183,35 @@ const Details = ({ onDetailsChange }) => {
     return (
         <Box>
             <Box pt={5} pb={5}>
-                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
-                        Description <span style={{color:'red'}}>*</span>
-                    </Box>
-                    <Input placeholder='Event description' size='sm' value={formData.description} onChange={(e) => handleInputChange('description', e.target.value)}/>
+                <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    Description <span style={{ color: 'red' }}>*</span>
                 </Box>
-                <Box p={5} shadow='md' borderWidth='1px' mb={6}>
-                    <Box bg='green.400' color='#FFF' mb={6} padding={2}>
-                        Detailed Description
-                    </Box>
-                    <Textarea placeholder='Description détaillée' size='sm' value={formData.descriptionDetailled} onChange={(e) => handleInputChange('descriptionDetailled', e.target.value)}/>
+                <Input placeholder='Event description' size='sm' value={formData.description} onChange={(e) => handleInputChange('description', e.target.value)} />
+            </Box>
+            <Box p={5} shadow='md' borderWidth='1px' mb={6}>
+                <Box bg='green.400' color='#FFF' mb={6} padding={2}>
+                    Detailed Description
                 </Box>
+                <Textarea placeholder='Description détaillée' size='sm' value={formData.descriptionDetailled} onChange={(e) => handleInputChange('descriptionDetailled', e.target.value)} />
+            </Box>
             <Flex flexDirection='column' gap={4}>
                 <Flex justifyContent='space-between' alignItems="center">
                     <Flex gap={6} alignItems="center">
                         <Text fontSize={14}>Event Date :</Text>
                         <Box width={200}>
-                            <Input placeholder='Select Date' size='sm' type='texte' value={formData.event_date} isReadOnly />
+                            <Input placeholder='Select Date' size='sm' type='texte' value={moment(formData.event_date).format('DD/MM/YYYY')} isReadOnly />
                         </Box>
                     </Flex>
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>RAG :</Text>
                         <Box width={200}>
-                            <Select options={rag} styles={customStyles} placeholder='Select RAG' value={rag.find(rag => rag.value === formData.RAG.value)} onChange={(selectedOption) => handleInputChange('RAG', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
+                            <Select
+                                options={rag}
+                                styles={customStyles}
+                                placeholder='Select RAG'
+                                value={rag.find(r => r.value === formData.RAG)}
+                                onChange={(selectedOption) => handleInputChange('RAG', selectedOption ? selectedOption.value : '')}
+                            />
                         </Box>
                     </Flex>
                     <Flex width={155}>
@@ -195,7 +222,7 @@ const Details = ({ onDetailsChange }) => {
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>Event Time :</Text>
                         <Box width={200}>
-                            <Input placeholder='Select Date and Time' size='sm' type='text' value={formData.event_time} readOnly/>
+                            <Input placeholder='Select Date and Time' size='sm' type='text' value={formData.event_time} readOnly />
                         </Box>
                     </Flex>
                 </Flex>
@@ -206,7 +233,7 @@ const Details = ({ onDetailsChange }) => {
                     </Flex>
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>On :</Text>
-                        <Text color='blue' fontSize={14}>{currentDate}</Text>
+                        <Text color='blue' fontSize={14}>{moment(formData.reviewer_date).format('DD/MM/YYYY')}</Text>
                     </Flex>
                     <Flex width={155}>
                         <Checkbox size='sm' isChecked={formData.excludeFundLosses} onChange={(e) => handleInputChange('excludeFundLosses', e.target.checked)}>Exclude Fund Losses</Checkbox>
@@ -217,7 +244,7 @@ const Details = ({ onDetailsChange }) => {
                     <Flex gap={5} alignItems="center">
                         <Text fontSize={14}>External Ref :</Text>
                         <Box >
-                            <Input placeholder='External Ref' size='sm' type='text' value={formData.externalRef} onChange={(e) => handleInputChange('externalRef', e.target.value)}/>
+                            <Input placeholder='External Ref' size='sm' type='text' value={formData.externalRef} onChange={(e) => handleInputChange('externalRef', e.target.value)} />
                         </Box>
                     </Flex>
                     <Flex width={155}>
@@ -231,21 +258,31 @@ const Details = ({ onDetailsChange }) => {
                         </Box>
                         <Flex flexDirection='column' gap={4}>
                             <Flex justifyContent='space-between' alignItems="center">
-                                <Text fontSize={14}>Entity : <span style={{color:'red'}}>*</span></Text>
+                                <Text fontSize={14}>Entity : <span style={{ color: 'red' }}>*</span></Text>
                                 <Box width={200}>
-                                    <Select options={entity} styles={customStyles} placeholder='Select Entity' value={entity.find(entity => entity.value === formData.entityOfDetection.value)} onChange={(selectedOption) => handleInputChange('entityOfDetection', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
+                                    <Select
+                                        options={entityofdetection} 
+                                        styles={customStyles}
+                                        placeholder='Select Entity'
+                                        value={entityofdetection.find(ent => ent.value === formData.entityOfDetection)}
+                                        onChange={(selectedOption) => handleInputChange('entityOfDetection', selectedOption ? selectedOption.value : '')}
+                                    />
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Sub Entity :</Text>
                                 <Box width={200}>
-                                    <Input placeholder='' size='sm' type='text' value={formData.subentityOfDetection} onChange={(e) => handleInputChange('subentityOfDetection', e.target.value)}/>
+                                    <Input placeholder='' size='sm' type='text' value={formData.subentityOfDetection} onChange={(e) => handleInputChange('subentityOfDetection', e.target.value)} />
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Detection Date :</Text>
                                 <Box width={200}>
-                                    <Input placeholder='Select Date' size='sm' type='date' value={formData.detection_date} onChange={(e) => handleInputChange('detection_date', e.target.value)}/>
+                                    <Input
+                                        placeholder='Select Date'
+                                        size='sm' type='date'
+                                        value={moment(formData.detection_date, 'DD-MM-YYYY').format('YYYY-MM-DD')}
+                                        onChange={(e) => handleInputChange('detection_date', e.target.value)} />
                                 </Box>
                             </Flex>
                         </Flex>
@@ -256,15 +293,21 @@ const Details = ({ onDetailsChange }) => {
                         </Box>
                         <Flex flexDirection='column' gap={4}>
                             <Flex justifyContent='space-between' alignItems="center">
-                                <Text fontSize={14}>Entity : <span style={{color:'red'}}>*</span></Text>
+                                <Text fontSize={14}>Entity : <span style={{ color: 'red' }}>*</span></Text>
                                 <Box width={200}>
-                                    <Select options={entityOfOrigin} styles={customStyles} placeholder='Select Entity' value={entityOfOrigin.find(entityOfOrigin => entityOfOrigin.value === formData.entityOfOrigin.value)} onChange={(selectedOption) => handleInputChange('entityOfOrigin', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
+                                    <Select
+                                        options={entityOfOrigin}
+                                        styles={customStyles}
+                                        placeholder='Select Entity'
+                                        value={entityOfOrigin.find(ent => ent.value === formData.entityOfOrigin)}
+                                        onChange={(selectedOption) => handleInputChange('entityOfOrigin', selectedOption ? selectedOption.value : '')}
+                                    />
                                 </Box>
                             </Flex>
                             <Flex justifyContent='space-between' alignItems="center">
                                 <Text fontSize={14}>Sub Entity :</Text>
                                 <Box width={200}>
-                                    <Input placeholder='' size='sm' type='text' value={formData.subentityOfOrigin} onChange={(e) => handleInputChange('subentityOfOrigin', e.target.value)}/>
+                                    <Input placeholder='' size='sm' type='text' value={formData.subentityOfOrigin} onChange={(e) => handleInputChange('subentityOfOrigin', e.target.value)} />
                                 </Box>
                             </Flex>
                         </Flex>
@@ -275,45 +318,73 @@ const Details = ({ onDetailsChange }) => {
                         <Flex gap={20} alignItems="center">
                             <Text fontSize={14}>Approved  :</Text>
                             <Box width={200} >
-                                <Input placeholder='Select Date' size='sm' type='date' value={formData.approved_date} onChange={(e) => handleInputChange('approved_date', e.target.value)}/>
+                                <Input
+                                    placeholder='Select Date'
+                                    size='sm' type='date'
+                                    value={moment(formData.approved_date, 'DD-MM-YYYY').format('YYYY-MM-DD')}
+                                    onChange={(e) => handleInputChange('approved_date', e.target.value)} />
                             </Box>
                         </Flex>
                         <Flex gap={14} alignItems="center">
                             <Text fontSize={14}>Closed Date :</Text>
                             <Box width={200} marginLeft={3}>
-                                <Input placeholder='Select Date' size='sm' type='date' value={formData.closed_date} onChange={(e) => handleInputChange('closed_date', e.target.value)}/>
+                                <Input
+                                    placeholder='Select Date'
+                                    size='sm' type='date'
+                                    value={moment(formData.closed_date, 'DD-MM-YYYY').format('YYYY-MM-DD')}
+                                    onChange={(e) => handleInputChange('closed_date', e.target.value)} />
                             </Box>
                         </Flex>
                         <Flex gap={6} alignItems="center">
                             <Text fontSize={14}>Target Closure Date :</Text>
                             <Box width={200}>
-                                <Input placeholder='Select Date' size='sm' type='date' value={formData.targetClosureDate} onChange={(e) => handleInputChange('targetClosureDate', e.target.value)}/>
+                                <Input
+                                    placeholder='Select Date'
+                                    size='sm' type='date'
+                                    value={moment(formData.targetClosureDate, 'DD-MM-YYYY').format('YYYY-MM-DD')}
+                                    onChange={(e) => handleInputChange('targetClosureDate', e.target.value)} />
                             </Box>
                         </Flex>
                     </Flex>
                     <Flex flexDirection='column' gap={2}>
                         <Flex gap={10} alignItems="center">
-                            <Text fontSize={14}>Owner : <span style={{color:'red'}}>*</span></Text>
+                            <Text fontSize={14}>Owner : <span style={{ color: 'red' }}>*</span></Text>
                             <Box width={200} marginLeft={1}>
-                                <Select options={options} styles={customStyles} placeholder='Select owner' value={options.find(option => option.value === formData.owner.value)} onChange={(selectedOption) => handleInputChange('owner', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
+                                <Select
+                                    options={options}
+                                    styles={customStyles}
+                                    placeholder='Select owner'
+                                    value={options.find(o => o.value === formData.owner)}
+                                    onChange={(selectedOption) => handleInputChange('owner', selectedOption ? selectedOption.value : '')}
+                                />
                             </Box>
                         </Flex>
                         <Flex gap={8} alignItems="center">
-                            <Text fontSize={14}>Nominee : <span style={{color:'red'}}>*</span></Text>
+                            <Text fontSize={14}>Nominee : <span style={{ color: 'red' }}>*</span></Text>
                             <Box width={200} >
-                            <Select options={options} styles={customStyles} placeholder='Select nominee' value={options.find(option => option.value === formData.nominee.value)} onChange={(selectedOption) => handleInputChange('nominee', selectedOption ? { value: selectedOption.value, label: selectedOption.label } : { value: '', label: '' })}/>
+                                <Select
+                                    options={options}
+                                    styles={customStyles}
+                                    placeholder='Select nominee'
+                                    value={options.find(o => o.value === formData.nominee)}
+                                    onChange={(selectedOption) => handleInputChange('nominee', selectedOption ? selectedOption.value : '')}
+                                />
                             </Box>
                         </Flex>
                         <Flex gap={10} alignItems="center">
                             <Text fontSize={14}>Reviewer :</Text>
                             <Box width={200} marginLeft={1}>
-                                <Input size='sm' type='text' value={formData.reviewer} onChange={(e) => handleInputChange('reviewer', e.target.value)}/>
+                                <Input size='sm' type='text' value={formData.reviewer} onChange={(e) => handleInputChange('reviewer', e.target.value)} />
                             </Box>
                         </Flex>
                         <Flex gap={6} alignItems="center">
-                            <Text fontSize={14}>Review Date :</Text>
+                            <Text fontSize={14}>Reviewer Date :</Text>
                             <Box width={200}>
-                                <Input placeholder='Select Date' size='sm' type='date' value={formData.reviewer_date} onChange={(e) => handleInputChange('reviewer_date', e.target.value)}/>
+                                <Input
+                                    placeholder='Select Date'
+                                    size='sm' type='date'
+                                    value={moment(formData.reviewer_date, 'DD-MM-YYYY').format('YYYY-MM-DD')}
+                                    onChange={(e) => handleInputChange('reviewer_date', e.target.value)} />
                             </Box>
                         </Flex>
                     </Flex>
@@ -325,7 +396,7 @@ const Details = ({ onDetailsChange }) => {
                     <Text fontWeight="bold" fontSize={14}>Documents<span style={{ fontStyle: 'italic' }}> (Importer vos documents dans l'espace ci-dessous)</span></Text>
                 </GridItem>
                 <Box mt={4}>
-                    <DocumentUploader onMediaUpload={handleUploadLinks}  />
+                    <DocumentUploader onMediaUpload={handleUploadLinks} />
                 </Box>
             </Box>
         </Box>

@@ -25,6 +25,8 @@
     "cloudinary-core": "^2.13.1",
     "crypto": "^1.0.1",
     "framer-motion": "^4.1.17",
+    "immer": "^10.1.1",
+    "moment": "^2.30.1",
     "querystring": "^0.2.1",
     "react": "17.0.2",
     "react-apexcharts": "1.4.0",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Flex,
@@ -15,6 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { PhoneIcon, SearchIcon } from "@chakra-ui/icons";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { listEvents } from "redux/events/action";
 
 export function SearchBar(props) {
   const { variant, background, children, borderRadius, ...rest } = props;
@@ -25,9 +27,37 @@ export function SearchBar(props) {
   const [inputValue, setInputValue] = React.useState('');
   const [placeholder, setPlaceholder] = React.useState('RSK');
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const handleSearch = () => {
-    history.push('/admin/event');
+  const events = useSelector(state => state.EventReducer.events);
+  const loading = useSelector(state => state.EventReducer.loading);
+
+  useEffect(() => {
+    dispatch(listEvents());
+  }, [dispatch]);
+
+  const handleSearch = async () => {
+    if (value === '3') {
+      // Si l'option sélectionnée est "Event"
+      try {
+        // Filtrer l'événement correspondant au numéro de référence saisi
+        const event = events.find(event => event.num_ref === inputValue);
+        if (event) {
+          // Rediriger vers la vue de l'événement avec les données récupérées
+          history.push({
+            pathname: '/admin/event',
+            state: { event, loading }
+          });
+        } else {
+          console.error('Aucun événement trouvé avec ce numéro de référence.');
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération des événements :", error);
+      }
+    } else {
+      // Logique de recherche pour les autres options si nécessaire
+      console.log('Recherche pour les autres options non implémentée');
+    }
   };
 
   const handleRadioChange = (nextValue) => {

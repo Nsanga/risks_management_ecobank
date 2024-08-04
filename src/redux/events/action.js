@@ -1,8 +1,7 @@
 import * as types from './types';
 
-export const listEvents = payload => ({
+export const listEvents = () => ({
   type: types.GET_EVENTS_REQUEST,
-  payload
 });
 
 export const updateEvent = (id, eventData) => ({
