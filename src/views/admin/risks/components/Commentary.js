@@ -1,23 +1,31 @@
 import { Box, Button, Flex, GridItem, Input, Text, Textarea } from '@chakra-ui/react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const Commentary = ({onCommentaryChange}) => {
+const Commentary = ({ eventDetails, onCommentaryChange }) => {
   const [comment, setComment] = useState({
     commentary: '',
   });
 
+  useEffect(() => {
+    if (eventDetails) {
+      setComment({
+        commentary: eventDetails?.commentary?.comment || '',
+      })
+    }
+  }, [eventDetails]);
+
   const handleInputChange = (field, value) => {
     setComment(prevData => {
-        const newData = { ...prevData, [field]: value };
-        onCommentaryChange(newData); // Notify parent about changes
-        return newData;
+      const newData = { ...prevData, [field]: value };
+      onCommentaryChange(newData); // Notify parent about changes
+      return newData;
     });
-};
+  };
   return (
     <Box>
       <Flex direction="column" gap={4} flex="2">
         <Text fontWeight="bold" fontSize={14}>Commentary</Text>
-        <Textarea size='sm' value={comment.commentary} onChange={(e) => handleInputChange('commentary', e.target.value)}/>
+        <Textarea size='sm' value={comment.commentary} onChange={(e) => handleInputChange('commentary', e.target.value)} />
       </Flex>
     </Box>
   );

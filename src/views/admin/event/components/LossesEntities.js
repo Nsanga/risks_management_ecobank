@@ -2,14 +2,13 @@ import { Box, Button, Flex, Input, Tab, TabList, TabPanel, TabPanels, Tabs, Text
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { FaFilePen } from "react-icons/fa6";
-import DetailsForm from './DetailsForm';
 import Financials from './Financials';
-import Commentary from './commentary';
 import Profiles from 'views/admin/risks/profiles';
 import Entity from 'views/admin/risks/entity';
 import entityAreaOfOrigin from 'views/admin/risks/entityOfOrigin';
 import RAG from 'views/admin/risks/RAG';
 import Details from 'views/admin/risks/components/Details';
+import Commentary from 'views/admin/risks/components/Commentary';
 
 const LossesEntities = ({
     event,
@@ -217,7 +216,7 @@ const LossesEntities = ({
                         <Details eventDetails={event} onDetailsChange={handleDetailsChange} />
                     </TabPanel>
                     <TabPanel>
-                        <Commentary />
+                        <Commentary eventDetails={event}/>
                     </TabPanel>
                     <TabPanel><Financials /></TabPanel>
                     <TabPanel>4</TabPanel>

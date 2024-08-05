@@ -47,8 +47,8 @@ const Event = () => {
                             currentState={event.approved === true ? 'Approved' : 'Unapproved'}
                             currentLocks={<Icon as={MdInsertDriveFile} boxSize={6} />}
                             description={event.details.description}
-                            totalLosses='1,727.15'
-                            externalRef
+                            totalLosses=' '
+                            externalRef={event.details.externalRef}
                         />
                         <LossesEntities event={event} />
                     </>
