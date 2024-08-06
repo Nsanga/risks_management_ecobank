@@ -9,7 +9,7 @@ import RAG from '../RAG';
 import entityAreaOfOrigin from '../entityOfOrigin';
 import moment from 'moment';
 
-const Details = ({ eventDetails, onDetailsChange }) => {
+const Details = ({ event, onDetailsChange }) => {
     const [options, setOptions] = useState([]);
     const [entityofdetection, setEntityofdetection] = useState([]);
     const [entityOfOrigin, setEntityOfOrigin] = useState([]);
@@ -37,7 +37,7 @@ const Details = ({ eventDetails, onDetailsChange }) => {
 
         return formattedTime;
     }
-    // console.log('>>>>>>>>>>>>>>', eventDetails.details.RAG)
+    // console.log('>>>>>>>>>>>>>>', event.details.RAG)
 
     const [formData, setFormData] = useState({
         event_date: '',
@@ -107,36 +107,36 @@ const Details = ({ eventDetails, onDetailsChange }) => {
     }, []);
 
     useEffect(() => {
-        if (eventDetails) {
+        if (event) {
             setFormData({
-                event_date: eventDetails.details.event_date || getCurrentDate(),
-                RAG: eventDetails.details.RAG || '',
-                activeEvent: eventDetails.details.activeEvent || false,
-                event_time: eventDetails.details.event_time || getCurrentTime(),
-                excludeFundLosses: eventDetails.details.excludeFundLosses || false,
-                externalEvent: eventDetails.details.externalEvent || false,
-                recorded_by: eventDetails.details.recorded_by || '',
-                recorded_date: eventDetails.details.recorded_date || '',
-                externalRef: eventDetails.details.externalRef || '',
-                notify: eventDetails.details.notify || false,
-                entityOfDetection: eventDetails.details.entityOfDetection || '',
-                subentityOfDetection: eventDetails.details.subentityOfDetection || '',
-                detection_date: eventDetails.details.detection_date || '',
-                entityOfOrigin: eventDetails.details.entityOfOrigin || '',
-                subentityOfOrigin: eventDetails.details.subentityOfOrigin || '',
-                description: eventDetails.details.description || '',
-                descriptionDetailled: eventDetails.details.descriptionDetailled || '',
-                approved_date: eventDetails.details.approved_date || '',
-                closed_date: eventDetails.details.closed_date || '',
-                targetClosureDate: eventDetails.details.targetClosureDate || '',
-                owner: eventDetails.details.owner || '',
-                nominee: eventDetails.details.nominee || '',
-                reviewer: eventDetails.details.reviewer || '',
-                reviewer_date: eventDetails.details.reviewer_date || '',
+                event_date: event.details.event_date || getCurrentDate(),
+                RAG: event.details.RAG || '',
+                activeEvent: event.details.activeEvent || false,
+                event_time: event.details.event_time || getCurrentTime(),
+                excludeFundLosses: event.details.excludeFundLosses || false,
+                externalEvent: event.details.externalEvent || false,
+                recorded_by: event.details.recorded_by || '',
+                recorded_date: event.details.recorded_date || '',
+                externalRef: event.details.externalRef || '',
+                notify: event.details.notify || false,
+                entityOfDetection: event.details.entityOfDetection || '',
+                subentityOfDetection: event.details.subentityOfDetection || '',
+                detection_date: event.details.detection_date || '',
+                entityOfOrigin: event.details.entityOfOrigin || '',
+                subentityOfOrigin: event.details.subentityOfOrigin || '',
+                description: event.details.description || '',
+                descriptionDetailled: event.details.descriptionDetailled || '',
+                approved_date: event.details.approved_date || '',
+                closed_date: event.details.closed_date || '',
+                targetClosureDate: event.details.targetClosureDate || '',
+                owner: event.details.owner || '',
+                nominee: event.details.nominee || '',
+                reviewer: event.details.reviewer || '',
+                reviewer_date: event.details.reviewer_date || '',
                 documents: [],
             });
         }
-    }, [eventDetails]);
+    }, [event]);
 
     const customStyles = {
         control: (provided) => ({
@@ -188,7 +188,7 @@ const Details = ({ eventDetails, onDetailsChange }) => {
                 </Box>
                 <Input placeholder='Event description' size='sm' value={formData.description} onChange={(e) => handleInputChange('description', e.target.value)} />
             </Box>
-            <Box p={5} shadow='md' borderWidth='1px' mb={6}>
+            <Box pt={5} pb={5}>
                 <Box bg='green.400' color='#FFF' mb={6} padding={2}>
                     Detailed Description
                 </Box>
@@ -199,7 +199,7 @@ const Details = ({ eventDetails, onDetailsChange }) => {
                     <Flex gap={6} alignItems="center">
                         <Text fontSize={14}>Event Date :</Text>
                         <Box width={200}>
-                            <Input placeholder='Select Date' size='sm' type='texte' value={moment(formData.event_date).format('DD/MM/YYYY')} isReadOnly />
+                            <Input placeholder='Select Date' size='sm' type='texte' value={moment(formData.event_date).format('DD-MM-YYYY')} isReadOnly />
                         </Box>
                     </Flex>
                     <Flex gap={5} alignItems="center">

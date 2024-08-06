@@ -1,18 +1,18 @@
 import { Box, Button, Flex, GridItem, Input, Text, Textarea } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react'
 
-const Commentary = ({ eventDetails, onCommentaryChange }) => {
+const Commentary = ({ event, onCommentaryChange }) => {
   const [comment, setComment] = useState({
     commentary: '',
   });
 
   useEffect(() => {
-    if (eventDetails) {
+    if (event) {
       setComment({
-        commentary: eventDetails?.commentary?.comment || '',
+        commentary: event?.commentary?.comment || '',
       })
     }
-  }, [eventDetails]);
+  }, [event]);
 
   const handleInputChange = (field, value) => {
     setComment(prevData => {

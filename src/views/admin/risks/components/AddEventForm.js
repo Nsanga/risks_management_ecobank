@@ -24,8 +24,16 @@ import Additional from "./Additional";
 import GlobalViewEvent from "./globalViewEvent/GlobalViewEvent";
 import { useState } from "react";
 import data from "../Data";
+import { FaFilePen } from "react-icons/fa6";
 
-function AddEventForm() {
+const truncateText = (text, maxLength) => {
+  if (!text || text.length <= maxLength) {
+    return text || '';
+  }
+  return text.substring(0, maxLength) + '...';
+};
+
+function AddEventForm({ event }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [detailsData, setDetailsData] = useState({});
   const [commentaryData, setCommentaryData] = useState({});
@@ -54,16 +62,19 @@ function AddEventForm() {
     <>
       <Flex justifyContent='flex-end'>
         <Box top="20px">
-          <Button leftIcon={<AddIcon />} onClick={onOpen} variant="outline" colorScheme='blue' size='sm'>
-            Add new event
-          </Button>
+          {event ?
+            <Button leftIcon={<FaFilePen />} onClick={onOpen} variant='outline' colorScheme='blue'>Amend </Button> :
+            <Button leftIcon={<AddIcon />} onClick={onOpen} variant="outline" colorScheme='blue' size='sm'>
+              Add new event
+            </Button>}
+
         </Box>
       </Flex>
 
       <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside" size='full'>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>New event</ModalHeader>
+          <ModalHeader>{event ? `EVT${event.num_ref} ${truncateText(event?.details.description, 50)}` : 'New event'}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Tabs>
@@ -71,28 +82,28 @@ function AddEventForm() {
                 <Tab>Details</Tab>
                 <Tab>Commentary</Tab>
                 <Tab >Financials</Tab>
-                <Tab>Additional info <span style={{color:'red'}}>*</span></Tab>
+                <Tab>Additional info <span style={{ color: 'red' }}>*</span></Tab>
               </TabList>
 
               <TabPanels>
                 <TabPanel>
-                  <Details onDetailsChange={handleDetailsChange}/>
+                  <Details onDetailsChange={handleDetailsChange} event={event}/>
                 </TabPanel>
                 <TabPanel>
-                  <Commentary onCommentaryChange={handleCommentaryChange} />
+                  <Commentary onCommentaryChange={handleCommentaryChange} event={event}/>
                 </TabPanel>
                 <TabPanel>
-                  <Finances onFinancesChange={handleFinancesChange} financesData={financesData}/>
+                  <Finances onFinancesChange={handleFinancesChange} financesData={financesData} />
                 </TabPanel>
                 <TabPanel>
-                  <Additional onAdditionalChange={handleAdditionalChange}/>
+                  <Additional onAdditionalChange={handleAdditionalChange} />
                 </TabPanel>
               </TabPanels>
             </Tabs>
           </ModalBody>
 
           <ModalFooter>
-            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories}/>
+            <GlobalViewEvent detailsData={detailsData} commentaryData={commentaryData} financesData={financesData} additionalData={additionalData} categories={categories} />
             <Button colorScheme="red" mr={2} onClick={onClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
