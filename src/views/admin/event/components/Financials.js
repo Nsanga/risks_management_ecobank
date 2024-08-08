@@ -57,7 +57,7 @@ const Finances = ({
           <Flex gap={6} alignItems="center">
             <Text fontSize={14}>Reviewer Date :</Text>
             <Box width={200}>
-              <Text fontSize={14} style={{ color: 'blue', fontWeight: 'bold' }}>{reviewerDate}</Text>
+              <Text fontSize={14} style={{ color: 'blue', fontWeight: 'bold' }}>{moment(reviewerDate).format('DD/MM/YYYY')}</Text>
             </Box>
           </Flex>
         </Flex>
