@@ -2,6 +2,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react'
 import Card from 'components/card/Card'
 import React from 'react'
 import Entitynew from './Component/Entitynew'
+import CreateProfile from './Component/Createprofile'
 
 const System = () => {
   return (
@@ -17,7 +18,7 @@ const System = () => {
               <Entitynew />
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <CreateProfile />
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton,
-  FormControl, FormLabel, Input, Select, Checkbox, Button, Box, Flex
+  FormControl, FormLabel, Input, Select, Checkbox, Button, Box, Flex, Heading
 } from '@chakra-ui/react';
 
 const AddEntityModal = ({ isOpen, onClose }) => {
@@ -15,6 +15,10 @@ const AddEntityModal = ({ isOpen, onClose }) => {
           <Flex>
             <Box flex="1" mr="4">
               <FormControl mb="4">
+                <FormLabel>Entity Active</FormLabel>
+                <Checkbox />
+              </FormControl>
+              <FormControl mb="4">
                 <FormLabel>Description</FormLabel>
                 <Input />
               </FormControl>
@@ -27,10 +31,6 @@ const AddEntityModal = ({ isOpen, onClose }) => {
               <FormControl mb="4">
                 <FormLabel>Created On</FormLabel>
                 <Input type="date" />
-              </FormControl>
-              <FormControl mb="4">
-                <FormLabel>Entity Active</FormLabel>
-                <Checkbox />
               </FormControl>
               <FormControl mb="4">
                 <FormLabel>Owner</FormLabel>
@@ -49,7 +49,10 @@ const AddEntityModal = ({ isOpen, onClose }) => {
                 <Input type="date" />
               </FormControl>
             </Box>
-            <Box p={3} shadow='md' borderWidth='1px' width='49%'height={250}>
+            <Box p={3} shadow='md' borderWidth='1px' width='49%' height={250}>
+              <Heading size="md" mb={4}>
+                Operational Models (Based on user views)
+              </Heading>
               <FormControl mb="4">
                 <FormLabel>Location</FormLabel>
                 <Select>
